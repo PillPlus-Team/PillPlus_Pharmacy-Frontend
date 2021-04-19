@@ -1,3 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+
 @tailwind base;
+body {
+    @apply bg-green-200;
+    font-family: 'Kanit', sans-serif;
+}
+
+/*scrollbar*/
+::-webkit-scrollbar {
+    width: 2px;
+    height: 0px;
+}
+::-webkit-scrollbar-track {
+    @apply bg-white;
+}
+::-webkit-scrollbar-thumb {
+    @apply bg-green-400;
+}
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-green-600;
+}
+
+/*input-Number*/
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
 @tailwind components;
+
 @tailwind utilities;
