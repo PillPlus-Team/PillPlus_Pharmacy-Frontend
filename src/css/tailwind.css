@@ -8,14 +8,16 @@ body {
 
 /*scrollbar*/
 ::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
     height: 0px;
 }
 ::-webkit-scrollbar-track {
     @apply bg-white;
+    border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb {
     @apply bg-green-400;
+    border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
     @apply bg-green-600;
