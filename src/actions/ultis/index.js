@@ -5,7 +5,7 @@ export const menuList = [
     },
     {
         title: 'ผู้ป่วยรอจ่ายยา',
-        url: '/',
+        url: '/dispense',
     },
     {
         title: 'ยอดประจำเดือน',
