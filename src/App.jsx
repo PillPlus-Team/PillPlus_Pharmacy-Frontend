@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-import { LoginPage, HomePage, ProfilePage, DispensePage } from './pages';
+import { LoginPage, HomePage, ProfilePage, DispensePage, ManagePillPage } from './pages';
 
 import io from 'socket.io-client';
 import { SOCKET_URL } from './config';
@@ -22,6 +22,8 @@ const App = () => {
                     <Route exact path="/dispense">
                         <DispensePage socket={socket} />
                     </Route>
+
+                    <Route exact path="/manage-pill" component={ManagePillPage} />
 
                     <Redirect to="/home" />
                 </Switch>

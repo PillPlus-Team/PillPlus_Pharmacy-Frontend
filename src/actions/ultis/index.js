@@ -13,6 +13,6 @@ export const menuList = [
     },
     {
         title: 'จัดการคลังยา',
-        url: '/',
+        url: '/manage-pill',
     },
 ];
