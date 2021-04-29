@@ -12,7 +12,12 @@ const PageLayout = ({ userInfo, menuList, pageTitle, children }) => {
             </div>
             <div className="flex flex-col w-full">
                 <div className="flex flex-row justify-end items-center h-24 min-w-min">
-                    <AccountCard phamacy={userInfo.phamacy} name={userInfo.name} avatarUri={userInfo.avatarUri} />
+                    <AccountCard
+                        phamacy={userInfo.phamacy}
+                        name={userInfo.name}
+                        avatarUri={userInfo.avatarUri}
+                        activatedStatus={userInfo.activated}
+                    />
                 </div>
                 <div className="w-full h-full pt-8 pb-8 pl-16 pr-16 overflow-y-auto">
                     <div className="flex flex-col w-full h-full ">
@@ -26,6 +31,3 @@ const PageLayout = ({ userInfo, menuList, pageTitle, children }) => {
 };
 
 export default PageLayout;
-
-
-

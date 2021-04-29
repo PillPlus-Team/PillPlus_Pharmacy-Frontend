@@ -64,7 +64,21 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
             <table className="table-fixed w-96 ml-32 mt-24 text-lg">
                 <tr>
                     <td className="font-bold w-32 min-w-max py-4">ID</td>
-                    <td className="w-96">{userInfo.ID}</td>
+                    <td className="w-96">
+                        <div className="flex items-center">
+                            <p className="mr-8">{userInfo.ID}</p>
+                            {!userInfo.activated && (
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-600">
+                                    Not Activated
+                                </span>
+                            )}
+                            {userInfo.activated && (
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-600">
+                                    Activated
+                                </span>
+                            )}
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td className="font-bold w-32 min-w-min py-4">ชื่อ - นามสกุล</td>
