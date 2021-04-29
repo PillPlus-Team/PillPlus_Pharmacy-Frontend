@@ -3,6 +3,11 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { LoginPage, HomePage, ProfilePage, DispensePage } from './pages';
 
+import io from 'socket.io-client';
+import { SOCKET_URL } from './config';
+
+const socket = io(SOCKET_URL);
+
 const App = () => {
     const user = useSelector((state) => state.user);
 
@@ -13,8 +18,10 @@ const App = () => {
                     <Route exact path="/home" component={HomePage} />
 
                     <Route exact path="/profile" component={ProfilePage} />
-                    
-                    <Route exact path="/dispense" component={DispensePage} />
+
+                    <Route exact path="/dispense">
+                        <DispensePage socket={socket} />
+                    </Route>
 
                     <Redirect to="/home" />
                 </Switch>

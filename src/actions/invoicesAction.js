@@ -1,19 +1,37 @@
-import { INVOICES_FETCH, INVOICES_SELECT, INVOICES_DISPENSE } from './types';
+import { INVOICES_FETCH, INVOICES_FETCH_BY_IO, INVOICES_SELECT, INVOICES_DISPENSE } from './types';
 
-import { ConfirmDialog, Toast } from './swals';
+import { LoadingModal, ConfirmDialog, Toast } from './swals';
+
+import { API_URL } from '../config';
 
 export const invoicesFetch = () => {
     return async (dispatch) => {
         let invoices = [
             {
-                ID: 10000002,
+                _id: 10000001,
+                hn: '10225463',
+                name: 'นาย พักตร์ภูมิ ตาแพร่',
+                startTime: 1618415601123,
+                queueNo: 1,
+                doctor: 'นพ.สมชาย เจริญรุ่งเรือง',
+                pillStore: {
+                    pharmacy: 'ร้าน A',
+                    location: '123/5 ต.หายา อ.ยาหาย จ.กรุงเทพ 12345',
+                },
+                pills: [],
+                serviceCharge: 30.0,
+            },
+            {
+                _id: 10000002,
                 hn: '10225464',
                 name: 'นาย พักตร์ภูมิ ตาแพร่',
                 startTime: 1618415651123,
-                queueNo: 1,
+                queueNo: 2,
                 doctor: 'นพ.สมชาย เจริญรุ่งเรือง',
-                pillStorePhamacy: 'ร้าน A',
-                pillStoreLocation: '123/5 ต.หายา อ.ยาหาย จ.กรุงเทพ 12345',
+                pillStore: {
+                    pharmacy: 'ร้าน A',
+                    location: '123/5 ต.หายา อ.ยาหาย จ.กรุงเทพ 12345',
+                },
                 pills: [
                     { name: 'ยา A', description: 'ทานหลังอาหาร 15 นาที เช้า,เย็น', amount: 10, unit: 'เม็ด', totalPrice: 10.0 },
                     { name: 'ยา B', description: 'ทานหลังอาหาร 15 นาที เช้า,เย็น', amount: 2, unit: 'ขวด', totalPrice: 200.0 },
@@ -24,57 +42,59 @@ export const invoicesFetch = () => {
                     { name: 'ยา A', description: 'ทานหลังอาหาร 15 นาที เช้า,เย็น', amount: 10, unit: 'เม็ด', totalPrice: 10.0 },
                 ],
                 serviceCharge: 50.0,
-                totalPay: 310.0,
             },
             {
-                ID: 10000003,
+                _id: 10000003,
                 hn: '10225465',
                 name: 'นาย พักตร์ภูมิ ตาแพร่',
                 startTime: 1618415661123,
-                queueNo: 2,
+                queueNo: 3,
                 doctor: 'นพ.สมชาย เจริญรุ่งเรือง',
-                pillStorePhamacy: 'ร้าน A',
-                pillStoreLocation: '123/5 ต.หายา อ.ยาหาย จ.กรุงเทพ 12345',
+                pillStore: {
+                    pharmacy: 'ร้าน A',
+                    location: '123/5 ต.หายา อ.ยาหาย จ.กรุงเทพ 12345',
+                },
                 pills: [{ name: 'ยา A', description: 'ทานหลังอาหาร 15 นาที เช้า,เย็น', amount: 10, unit: 'เม็ด', totalPrice: 10.0 }],
                 serviceCharge: 50.0,
-                totalPay: 60.0,
             },
         ];
 
         invoices = invoices.map((invoice) => {
-            let totalPillPrice = 0;
+            let totalPay = 0;
             invoice.pills.forEach((pill) => {
-                totalPillPrice += pill.totalPrice;
+                totalPay += pill.totalPrice;
             });
 
-            return { ...invoice, totalPillPrice: totalPillPrice };
+            return { ...invoice, totalPay: totalPay };
         });
-
         invoices = invoices.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
+
         dispatch({ type: INVOICES_FETCH, invoices: invoices });
     };
 };
 
-export const invoicesSelect = ({ ID }) => {
+export const invoicesSelect = ({ _id }) => {
     return {
         type: INVOICES_SELECT,
-        ID: ID,
+        _id: _id,
     };
 };
 
-export const invoicesDispense = ({ ID }) => {
+export const invoicesDispense = ({ _id, onSuccess }) => {
     return async (dispatch, getState) => {
-        const { invoices } = getState();
+        LoadingModal.fire({ title: 'กำลังดำเนินการ ...' });
+        LoadingModal.showLoading();
 
-        const invoice = invoices.list.find((invoice) => invoice.ID === ID);
+        const { invoices } = getState();
+        const invoice = invoices.list.find((invoice) => invoice._id === _id);
 
         ConfirmDialog.fire({
             title: 'ยืนยันการจ่ายยา',
             html:
                 `<br> HN ${invoice.hn} : ${invoice.name} <br><br>` +
-                `รับยาที่ ${invoice.pillStorePhamacy} <br>` +
-                `ที่อยู่ ${invoice.pillStoreLocation} <br><br>` +
-                `ยอดรวมยาทั้งสิ้น <b>${Number(invoice.totalPillPrice).toLocaleString('th-TH', {
+                `รับยาที่ ${invoice.pillStore.pharmacy} <br>` +
+                `ที่อยู่ ${invoice.pillStore.location} <br><br>` +
+                `ยอดรวมยาทั้งสิ้น <b>${Number(invoice.totalPay).toLocaleString('th-TH', {
                     style: 'currency',
                     currency: 'THB',
                     minimumFractionDigits: 2,
@@ -83,7 +103,7 @@ export const invoicesDispense = ({ ID }) => {
             icon: 'warning',
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch({ type: INVOICES_DISPENSE, ID: ID });
+                dispatch({ type: INVOICES_DISPENSE, _id: _id });
                 Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success', timer: 1500 });
             }
         });
@@ -93,8 +113,10 @@ export const invoicesDispense = ({ ID }) => {
 /* For Production */
 // export const invoicesFetch = () => {
 //     return async (dispatch) => {
-//         const res = await fetch('/api/v1/getInvoices/myPillStore', {
+//         const res = await fetch(API_URL + '/invoice', {
 //             method: 'GET',
+//             mode: 'cors',
+//             credentials: 'include',
 //             headers: {
 //                 'Content-Type': 'application/json',
 //             },
@@ -102,67 +124,92 @@ export const invoicesDispense = ({ ID }) => {
 
 //         if (res.status === 200) {
 //             let invoices = await res.json();
-
 //             invoices = invoices.map((invoice) => {
-//                 let totalPillPrice = 0;
+//                 let totalPay = 0;
 //                 invoice.pills.forEach((pill) => {
-//                     totalPillPrice += pill.totalPrice;
+//                     totalPay += pill.totalPrice;
 //                 });
-    
-//                 return { ...invoice, totalPillPrice: totalPillPrice };
-//             });
 
-//             invoices = prescriptions.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
+//                 return { ...invoice, totalPay: totalPay };
+//             });
+//             invoices = invoices.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
+
 //             dispatch({ type: INVOICES_FETCH, invoices: invoices });
 //         }
 //     };
 // };
 
-// export const invoicesSelect = ({ ID }) => {
-//     return {
-//         type: INVOICES_SELECT,
-//         ID: ID,
+// export const invoicesFetchByIO = () => {
+//     return async (dispatch) => {
+//         const res = await fetch(API_URL + '/invoice', {
+//             method: 'GET',
+//             mode: 'cors',
+//             credentials: 'include',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+
+//         if (res.status === 200) {
+//             let invoices = await res.json();
+//             invoices = invoices.map((invoice) => {
+//                 let totalPay = 0;
+//                 invoice.pills.forEach((pill) => {
+//                     totalPay += pill.totalPrice;
+//                 });
+
+//                 return { ...invoice, totalPay: totalPay };
+//             });
+//             invoices = invoices.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
+
+//             dispatch({ type: INVOICES_FETCH_BY_IO, newInvoices: invoices });
+//         }
 //     };
 // };
 
-// export const invoicesDispense = ({ ID }) => {
+// export const invoicesSelect = ({ _id }) => {
+//     return {
+//         type: INVOICES_SELECT,
+//         _id: _id,
+//     };
+// };
+
+// export const invoicesDispense = ({ _id, onSuccess }) => {
 //     return async (dispatch, getState) => {
+//         LoadingModal.fire({ title: 'กำลังดำเนินการ ...' });
+//         LoadingModal.showLoading();
+
 //         const { invoices } = getState();
-
-//         const invoice = invoices.list.find((invoice) => invoice.ID === ID);
-
-//         let totalPillPrice = 0;
-//         invoice.pills.forEach((pill) => {
-//             totalPillPrice += pill.totalPrice;
-//         });
+//         const invoice = invoices.list.find((invoice) => invoice._id === _id);
 
 //         ConfirmDialog.fire({
-//             title: 'ยืนยันการชำระเงิน',
+//             title: 'ยืนยันการจ่ายยา',
 //             html:
 //                 `<br> HN ${invoice.hn} : ${invoice.name} <br><br>` +
-//                 `รับยาที่ ${invoice.pillStorePhamacy} <br>` +
-//                 `ที่อยู่ ${invoice.pillStoreLocation} <br><br>` +
-//                 `ยอดรวมยาทั้งสิ้น <b>${invoice.totalPillPrice.toLocaleString('th-TH', {
+//                 `รับยาที่ ${invoice.pillStore.pharmacy} <br>` +
+//                 `ที่อยู่ ${invoice.pillStore.location} <br><br>` +
+//                 `ยอดรวมยาทั้งสิ้น <b>${Number(invoice.totalPay).toLocaleString('th-TH', {
 //                     style: 'currency',
 //                     currency: 'THB',
 //                     minimumFractionDigits: 2,
 //                 })}</b> <br>`,
 
 //             icon: 'warning',
-//         }).then(async (result) => {
+//         }).then((result) => {
 //             if (result.isConfirmed) {
-//                 const res = await fetch('/api/v1/invoicePay', {
+//                 const res = await fetch(API_URL + `/invoice/${_id}`, {
 //                     method: 'POST',
+//                     mode: 'cors',
+//                     credentials: 'include',
 //                     headers: {
 //                         'Content-Type': 'application/json',
 //                     },
-//                     body: JSON.stringify({
-//                         ID,
-//                     }),
 //                 });
 
 //                 if (res.status === 200) {
-//                     dispatch({ type: INVOICES_DISPENSE, ID: ID });
+//                     onSuccess();
+
+//                     dispatch({ type: INVOICES_DISPENSE, _id: _id });
 //                     Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success', timer: 1500 });
 //                 } else {
 //                     Toast.fire({ title: 'เกิดข้อผิดพลาด ในการดำเนินการ', icon: 'error' });

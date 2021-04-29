@@ -5,19 +5,45 @@ import { PageLayout, PatientQueue } from '../../components';
 
 import InvoiceInfoMonitor from './components/InvoiceInfoMonitor';
 
-import { invoicesFetch, invoicesSelect, invoicesDispense } from '../../actions/invoicesAction';
+import { invoicesFetch, invoicesFetchByIO, invoicesSelect, invoicesDispense } from '../../actions/invoicesAction';
 
-const DispensePage = () => {
+const DispensePage = ({ socket }) => {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
     const menuList = useSelector((state) => state.menuList);
     const invoices = useSelector((state) => state.invoices);
 
-    const selectedInvoice = invoices.list.find((element) => element.ID === invoices.selectedInvoiceID);
+    let selectedInvoice;
+    try {
+        selectedInvoice = invoices.list.find((element) => element._id === invoices.selectedInvoice_id);
+    } catch (err) {
+        selectedInvoice = null;
+    }
 
     useEffect(() => {
         dispatch(invoicesFetch());
+
+        // socket.on('message', (message) => {
+        //     dispatch(invoicesFetchByIO());
+        //     console.log(message);
+        // });
+        // socket.on('err', (errror) => {
+        //     console.error(errror);
+        // });
+
+        // setTimeout(() => {
+        //     socket.emit('join', 'Payment_Room');
+        //     console.log('join -> Payment_Room :', socket.id);
+        // }, 100);
+
+        // /* componentWillUnmount*/
+        // return () => {
+        //     socket.emit('leave', 'Payment_Room');
+        //     console.log('leave -> Payment_Room :', socket.id);
+
+        //     socket.removeAllListeners();
+        // };
     }, []);
 
     return (
@@ -29,7 +55,7 @@ const DispensePage = () => {
                         <PatientQueue
                             patientQueueList={invoices.list}
                             onSelected={(selectedIndex) => {
-                                dispatch(invoicesSelect({ ID: invoices.list[selectedIndex].ID }));
+                                dispatch(invoicesSelect({ _id: invoices.list[selectedIndex]._id }));
                             }}
                         />
                     </div>
@@ -55,7 +81,15 @@ const DispensePage = () => {
                         type="button"
                         disabled={!selectedInvoice}
                         onClick={() => {
-                            dispatch(invoicesDispense({ ID: invoices.selectedInvoiceID }));
+                            dispatch(
+                                invoicesDispense({
+                                    _id: invoices.selectedInvoice_id,
+                                    onSuccess: () => {
+                                        socket.emit('room', 'Payment_Room');
+                                        console.log('knock Payment_Room!');
+                                    },
+                                })
+                            );
                         }}
                     >
                         ยืนยันการจ่ายยา

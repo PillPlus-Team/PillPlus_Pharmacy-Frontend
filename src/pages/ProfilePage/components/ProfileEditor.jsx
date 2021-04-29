@@ -8,14 +8,14 @@ import { userEditProfileToggle, userUpdateProfile, userChangePassword } from '..
 const ProfileEditor = ({ userInfo, pillStores }) => {
     const dispatch = useDispatch();
 
-    const [avatarUrl, setAvatarUrl] = useState(userInfo.avatarUrl);
+    const [avatarUri, setavatarUri] = useState(userInfo.avatarUri);
     const [name, setName] = useState(userInfo.name);
     const [phamacy, setPhamacy] = useState(userInfo.phamacy);
     const [location, setLocation] = useState(userInfo.location);
     const [email, setEmail] = useState(userInfo.email);
     const [phone, setPhone] = useState(userInfo.phone);
 
-    const [isValidAvatarUrl, setIsValidAvatarUrl] = useState(true);
+    const [isValidavatarUri, setIsValidavatarUri] = useState(true);
     const [isValidName, setIsValidName] = useState(true);
     const [isValidPhamacy, setIsValidPhamacy] = useState(true);
     const [isValidLocation, setIsValidLocation] = useState(true);
@@ -36,12 +36,12 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     });
 
     useEffect(() => {
-        setCanSubmit(isValidAvatarUrl && isValidName && isValidPhamacy && isValidLocation && isValidEmail && isValidPhone);
-    }, [isValidAvatarUrl, isValidName, isValidPhamacy, isValidLocation, isValidEmail, isValidPhone]);
+        setCanSubmit(isValidavatarUri && isValidName && isValidPhamacy && isValidLocation && isValidEmail && isValidPhone);
+    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidEmail, isValidPhone]);
 
     const submitHandler = () => {
         if (canSubmit) {
-            dispatch(userUpdateProfile({ avatarUrl, name, phamacy, location, email, phone }));
+            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, email, phone }));
         }
     };
 
@@ -52,13 +52,13 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                 id="InputImageFile-avatar"
                 name="avatar"
                 accept="image/jpeg"
-                limitSizeMB={250}
-                initImageUrl={avatarUrl}
+                limitSizeMB={1}
+                initImageUrl={avatarUri}
                 onValidChange={(state) => {
-                    setIsValidAvatarUrl(state);
+                    setIsValidavatarUri(state);
                 }}
                 onValueChange={(state) => {
-                    setAvatarUrl(state);
+                    setavatarUri(state);
                 }}
             />
             <table className="table-fixed w-96 ml-32 mt-24 text-lg">

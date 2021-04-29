@@ -7,7 +7,7 @@ const ProfileDisplay = ({ userInfo }) => {
 
     return (
         <div className="flex flex-row min-w-max bg-white rounded-lg shadow-md ">
-            <img className="w-80 h-80 ml-24 mt-24 rounded-lg shadow-md object-cover" src={userInfo.avatarUrl} alt="user-avatar" />
+            <img className="w-80 h-80 ml-24 mt-24 rounded-lg shadow-md object-cover" src={userInfo.avatarUri} alt="user-avatar" />
             <div className="flex flex-row w-full">
                 <table className="table-fixed w-96 ml-32 mt-24 text-lg">
                     <tr>

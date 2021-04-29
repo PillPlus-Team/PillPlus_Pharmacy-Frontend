@@ -69,6 +69,11 @@ export const userChangePassword = () => {
                             ChaningModal.showValidationMessage('กรุณากรอกข้อมูลให้ครบ');
                         } else if (document.getElementById('new-password-1').value !== document.getElementById('new-password-2').value) {
                             ChaningModal.showValidationMessage('กรุณากรอกรหัสผ่านใหม่ ให้ตรงกัน');
+                        } else if (
+                            document.getElementById('new-password-1').value.length < 6 ||
+                            document.getElementById('new-password-2').value.length < 6
+                        ) {
+                            ChaningModal.showValidationMessage('รหัสผ่านใหม่ ต้องมีความยาวมากกว่า 6 ตัวอักษร');
                         } else {
                             return [document.getElementById('new-password-1').value, document.getElementById('new-password-2').value];
                         }
@@ -208,6 +213,11 @@ export const userLogout = ({ history }) => {
 //                             ChaningModal.showValidationMessage('กรุณากรอกข้อมูลให้ครบ');
 //                         } else if (document.getElementById('new-password-1').value !== document.getElementById('new-password-2').value) {
 //                             ChaningModal.showValidationMessage('กรุณากรอกรหัสผ่านใหม่ ให้ตรงกัน');
+//                         } else if (
+//                             document.getElementById('new-password-1').value.length < 6 ||
+//                             document.getElementById('new-password-2').value.length < 6
+//                         ) {
+//                             ChaningModal.showValidationMessage('รหัสผ่านใหม่ ต้องมีความยาวมากกว่า 6 ตัวอักษร');
 //                         } else {
 //                             return [document.getElementById('new-password-1').value, document.getElementById('new-password-2').value];
 //                         }

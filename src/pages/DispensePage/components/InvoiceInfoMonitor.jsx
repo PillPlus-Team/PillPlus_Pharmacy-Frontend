@@ -4,15 +4,21 @@ const InvoiceInfoMonitor = ({ invoice }) => {
             <table className="table-fixed w-full min-w-full divide-y divide-gray-200">
                 <tr>
                     <td className="font-bold w-36 py-2">รหัสใบเสร็จ</td>
-                    <td className="w-96 py-2">{invoice.ID}</td>
+                    <td className="w-96 py-2">{invoice._id}</td>
                 </tr>
+
                 <tr>
                     <td className="font-bold w-36 py-2">รหัส HN</td>
                     <td className="w-96 py-2">{invoice.hn}</td>
                 </tr>
+
                 <tr>
                     <td className="font-bold w-36 py-2">ชื่อ</td>
                     <td className="w-96 py-2">{invoice.name}</td>
+                </tr>
+                <tr>
+                    <td className="font-bold w-36 py-2">เลขประจำตัวประชาชน</td>
+                    <td className="w-96 py-2">{invoice.identificationNumber}</td>
                 </tr>
                 <tr>
                     <td className="font-bold w-36 py-2">แพทย์ผู้รับผิดชอบ</td>
@@ -22,8 +28,8 @@ const InvoiceInfoMonitor = ({ invoice }) => {
                     <td className="font-bold w-36 py-2">สถานที่รับยา</td>
                     <td className="w-96 py-2">
                         <div className="flex flex-col">
-                            <p>{invoice.pillStorePhamacy}</p>
-                            <p className="text-sm text-gray-400 break-words">{invoice.pillStoreLocation}</p>
+                            <p>{invoice.pillStore.pharmacy}</p>
+                            <p className="text-sm text-gray-400 break-words">{invoice.pillStore.location}</p>
                         </div>
                     </td>
                 </tr>
@@ -67,7 +73,7 @@ const InvoiceInfoMonitor = ({ invoice }) => {
                 <tr>
                     <td className="font-bold w-36 py-2">รวมทั้งสิ้น</td>
                     <td className="w-96 py-2 text-right">
-                        {Number(invoice.totalPillPrice).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 })}
+                        {Number(invoice.totalPay).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 })}
                     </td>
                 </tr>
             </table>
