@@ -25,17 +25,16 @@ const PillRowDisplay = ({ index, pill }) => {
                         })}
                     </p>
                 </td>
-                <td className="w-32 px-6 py-4 text-gray-500 align-top">
-                    <p className="break-words">{Number(pill.amount).toLocaleString('th-TH')}</p>
-                </td>
-                <td className="w-36 px-6 py-4 text-gray-500 align-top">{pill.unit}</td>
                 <td className="w-36 px-6 py-4 text-gray-500 align-top">
                     <p className="break-words">
                         {Number(pill.price).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 })}
                     </p>
                 </td>
-                <td className="w-20 px-6 py-4 whitespace-nowrap text-center font-medium align-top"></td>
-                <td className="w-20 px-6 py-4 whitespace-nowrap text-center font-medium align-top">
+                <td className="w-36 px-6 py-4 text-gray-500 align-top">{pill.unit}</td>
+                <td className="w-44 px-6 py-4 text-gray-500 align-top text-right border-l border-r">
+                    <p className="break-words">{Number(pill.amount).toLocaleString('th-TH')}</p>
+                </td>
+                <td className="w-20 px-6 py-4 whitespace-nowrap text-center font-medium align-top" colSpan='2'>
                     <button
                         class="text-indigo-600 hover:text-indigo-900 hover:underline focus:outline-none"
                         type="button"

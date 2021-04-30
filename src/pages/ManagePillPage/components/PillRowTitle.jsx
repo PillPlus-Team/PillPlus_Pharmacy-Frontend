@@ -14,14 +14,14 @@ const PillRowTitle = () => {
                 <th className="w-64 px-6 py-3 text-left font-medium text-gray-700 tracking-wider" scope="col">
                     คำอธิบาย
                 </th>
-                <th className="w-32 px-6 py-3 text-left font-medium text-gray-700 tracking-wider" scope="col">
-                    จำนวน
+                <th className="w-36 px-6 py-3 text-left font-medium text-gray-700 tracking-wider" scope="col">
+                    ราคา/หน่วย
                 </th>
                 <th className="w-36 px-6 py-3 text-left font-medium text-gray-700 tracking-wider" scope="col">
                     หน่วย
                 </th>
-                <th className="w-36 px-6 py-3 text-left font-medium text-gray-700 tracking-wider" scope="col">
-                    ราคา/หน่วย
+                <th className="w-44 px-6 py-3 text-right font-medium text-gray-700 tracking-wider border-l border-r" scope="col">
+                    จำนวน
                 </th>
 
                 <th className="w-20 relative px-6 py-3" scope="col">

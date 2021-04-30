@@ -90,7 +90,7 @@ export const pillsFetch = () => {
                 _id: 10000001,
                 sn: '10225463',
                 name: 'ยา A',
-                description: 'ทานหลังอาหาร 15 นาที เช้า,เย็น',
+                description: 'ทานหลังอาหาร 15 นาที \nเช้า,เย็น',
                 unit: 'เม็ด',
                 price: 150.0,
                 amount: 10,
