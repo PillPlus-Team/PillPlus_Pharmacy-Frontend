@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-import { LoginPage, HomePage, ProfilePage, DispensePage, ManagePillPage } from './pages';
+import { LoginPage, ActivatePage, HomePage, ProfilePage, DispensePage, ManagePillPage } from './pages';
 
 import io from 'socket.io-client';
 import { SOCKET_URL } from './config';
@@ -28,6 +28,7 @@ const App = () => {
                     <Redirect to="/home" />
                 </Switch>
             )}
+
             {!user && (
                 <Switch>
                     <Route exact path="/login" component={LoginPage} />

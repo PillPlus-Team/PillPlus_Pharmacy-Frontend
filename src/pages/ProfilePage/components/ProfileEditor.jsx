@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { InputText, InputImageFile } from '../../../components';
+import { InputText, InputImageFile, InputMapLocation } from '../../../components';
 
 import { userEditProfileToggle, userUpdateProfile, userChangePassword } from '../../../actions/userActions';
 
@@ -12,6 +12,8 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     const [name, setName] = useState(userInfo.name);
     const [phamacy, setPhamacy] = useState(userInfo.phamacy);
     const [location, setLocation] = useState(userInfo.location);
+    const [mapLocation, setMapLocation] = useState({ lat: userInfo.lat, lng: userInfo.lng });
+    const [openingDescription, setOpeningDescription] = useState(userInfo.openingDescription);
     const [email, setEmail] = useState(userInfo.email);
     const [phone, setPhone] = useState(userInfo.phone);
 
@@ -19,6 +21,8 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     const [isValidName, setIsValidName] = useState(true);
     const [isValidPhamacy, setIsValidPhamacy] = useState(true);
     const [isValidLocation, setIsValidLocation] = useState(true);
+    const [isValidMapLocation, setIsValidMapLocation] = useState(mapLocation.lat && mapLocation.lng);
+    const [isValidOpeningDescription, seIsValidOpeningDescription] = useState(userInfo.openingDescription != null);
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPhone, setIsValidPhone] = useState(true);
 
@@ -36,17 +40,30 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     });
 
     useEffect(() => {
-        setCanSubmit(isValidavatarUri && isValidName && isValidPhamacy && isValidLocation && isValidEmail && isValidPhone);
-    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidEmail, isValidPhone]);
+        console.log(mapLocation);
+    }, [mapLocation]);
+
+    useEffect(() => {
+        setCanSubmit(
+            isValidavatarUri &&
+                isValidName &&
+                isValidPhamacy &&
+                isValidLocation &&
+                isValidMapLocation &&
+                isValidOpeningDescription &&
+                isValidEmail &&
+                isValidPhone
+        );
+    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidMapLocation, isValidOpeningDescription, isValidEmail, isValidPhone]);
 
     const submitHandler = () => {
         if (canSubmit) {
-            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, email, phone }));
+            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, mapLocation, openingDescription, email, phone }));
         }
     };
 
     return (
-        <div className="flex flex-row min-w-max bg-white rounded-lg shadow-md">
+        <div className="flex flex-row min-w-max h-176 bg-white rounded-lg shadow-md">
             <InputImageFile
                 className="ml-24 mt-24 rounded-lg"
                 id="InputImageFile-avatar"
@@ -64,21 +81,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
             <table className="table-fixed w-96 ml-32 mt-24 text-lg">
                 <tr>
                     <td className="font-bold w-32 min-w-max py-4">ID</td>
-                    <td className="w-96">
-                        <div className="flex items-center">
-                            <p className="mr-8">{userInfo.ID}</p>
-                            {!userInfo.activated && (
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-600">
-                                    Not Activated
-                                </span>
-                            )}
-                            {userInfo.activated && (
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-600">
-                                    Activated
-                                </span>
-                            )}
-                        </div>
-                    </td>
+                    <td className="w-96">{userInfo.ID}</td>
                 </tr>
                 <tr>
                     <td className="font-bold w-32 min-w-min py-4">ชื่อ - นามสกุล</td>
@@ -151,6 +154,28 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                     </td>
                 </tr>
                 <tr>
+                    <td className="font-bold w-32 min-w-min py-4">ตำแหน่งร้าน</td>
+                    <td>
+                        <InputMapLocation
+                            initMapLocation={mapLocation}
+                            onValidChange={(state) => {
+                                setIsValidMapLocation(state);
+                            }}
+                            onMapLocationChange={(location) => {
+                                setMapLocation({ lat: location.lat, lng: location.lng });
+                            }}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td className="font-bold w-32 min-w-min py-4">เวลาทำการ</td>
+                    <td>
+                        <button className="w-full p-2 bg-white text-green-500  border-2  border-green-500 rounded-lg focus:outline-none hover:bg-green-100">
+                            {openingDescription ? openingDescription : 'กำหนดเวลาทำการ'}
+                        </button>
+                    </td>
+                </tr>
+                <tr>
                     <td className="font-bold w-32 min-w-min py-4">Email</td>
                     <td>
                         <InputText
@@ -218,7 +243,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                     </td>
                 </tr>
             </table>
-            <div className="flex flex-col justify-end items-end w-full mt-64 h-96">
+            <div className="flex flex-col justify-end items-end w-full mt-auto">
                 <div className="flex flex-row">
                     <button
                         className="w-24 mb-2 mr-2 p-2 bg-gray-500 text-white rounded-lg focus:outline-none hover:bg-gray-400"

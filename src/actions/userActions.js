@@ -29,10 +29,13 @@ export const userEditProfileToggle = () => {
     };
 };
 
-export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, email, phone }) => {
+export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, email, phone }) => {
     return async (dispatch, getState) => {
         const { user } = getState();
-        dispatch({ type: USER_UPDATE_PROFILE, user: { ...user, avatarUrl, name, phamacy, location, email, phone } });
+        dispatch({
+            type: USER_UPDATE_PROFILE,
+            user: { ...user, avatarUrl, name, phamacy, location, lat: mapLocation.lat, lng: mapLocation.lng, email, phone },
+        });
         Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success' });
     };
 };
@@ -151,7 +154,7 @@ export const userLogout = ({ history }) => {
 //     };
 // };
 
-// export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, email, phone }) => {
+// export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, email, phone }) => {
 //     return async (dispatch, getState) => {
 //         const { user } = getState();
 
@@ -167,7 +170,16 @@ export const userLogout = ({ history }) => {
 //             headers: {
 //                 'Content-Type': 'application/json',
 //             },
-//             body: JSON.stringify({ avatarUrl: updateAvatarUrl, name, phamacy, location, email, phone }),
+//             body: JSON.stringify({
+//                 avatarUrl: updateAvatarUrl,
+//                 name,
+//                 phamacy,
+//                 location,
+//                 lat: mapLocation.lat,
+//                 lng: mapLocation.lng,
+//                 email,
+//                 phone,
+//             }),
 //         });
 
 //         if (res.status == 200) {
