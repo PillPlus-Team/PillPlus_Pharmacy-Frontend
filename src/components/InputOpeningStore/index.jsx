@@ -92,7 +92,7 @@ const InputOpeningStore = ({ initOpeningData, msgOpeningNull, onOpeningNullChang
             </button>
 
             <Modal
-                contentLabel="MapLocationInput-Modal"
+                contentLabel="OpeningStoreInput-Modal"
                 isOpen={modalIsOpen}
                 closeTimeoutMS={300}
                 onRequestClose={() => {

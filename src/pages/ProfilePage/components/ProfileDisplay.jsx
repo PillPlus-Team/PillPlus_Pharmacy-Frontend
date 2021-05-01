@@ -29,13 +29,13 @@ const ProfileDisplay = ({ userInfo }) => {
                     <tr>
                         <td className="font-bold w-32 min-w-min py-4">ตำแหน่งร้าน</td>
                         <td>
-                            {!(userInfo.lat && userInfo.lng) && (
+                            {!userInfo.coordinate && (
                                 <div className="flex flex-row space-x-2 text-red-400 ">ยังไม่ได้กำหนด (กำหนดเพื่อ Activate)</div>
                             )}
-                            {userInfo.lat && userInfo.lng && (
+                            {userInfo.coordinate && (
                                 <div className="flex flex-row space-x-2 text-gray-400 ">
-                                    <p>LAT : {Number(userInfo.lat).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
-                                    <p>LNT : {Number(userInfo.lng).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
+                                    <p>LAT : {Number(userInfo.coordinate.lat).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
+                                    <p>LNT : {Number(userInfo.coordinate.lng).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
                                 </div>
                             )}
                         </td>

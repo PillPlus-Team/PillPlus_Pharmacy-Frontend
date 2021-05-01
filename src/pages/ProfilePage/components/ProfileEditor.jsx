@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { InputText, InputImageFile, InputMapLocation, InputOpeningStore } from '../../../components';
+import { InputText, InputImageFile, InputCoordinate, InputOpeningStore } from '../../../components';
 
 import { userEditProfileToggle, userUpdateProfile, userChangePassword } from '../../../actions/userActions';
 
@@ -12,7 +12,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     const [name, setName] = useState(userInfo.name);
     const [phamacy, setPhamacy] = useState(userInfo.phamacy);
     const [location, setLocation] = useState(userInfo.location);
-    const [mapLocation, setMapLocation] = useState({ lat: userInfo.lat, lng: userInfo.lng });
+    const [coordinate, setCoordinate] = useState(userInfo.coordinate);
     const [openingData, setOpeningData] = useState(userInfo.openingData);
     const [email, setEmail] = useState(userInfo.email);
     const [phone, setPhone] = useState(userInfo.phone);
@@ -21,7 +21,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     const [isValidName, setIsValidName] = useState(true);
     const [isValidPhamacy, setIsValidPhamacy] = useState(true);
     const [isValidLocation, setIsValidLocation] = useState(true);
-    const [isValidMapLocation, setIsValidMapLocation] = useState(mapLocation.lat && mapLocation.lng);
+    const [isValidCoordinate, setIsValidCoordinate] = useState(userInfo.coordinate != null);
     const [isValidOpeningData, setIsValidOpeningData] = useState(userInfo.openingData != null);
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPhone, setIsValidPhone] = useState(true);
@@ -45,17 +45,16 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                 isValidName &&
                 isValidPhamacy &&
                 isValidLocation &&
-                isValidMapLocation &&
+                isValidCoordinate &&
                 isValidOpeningData &&
                 isValidEmail &&
                 isValidPhone
         );
-    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidMapLocation, isValidOpeningData, isValidEmail, isValidPhone]);
+    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidCoordinate, isValidOpeningData, isValidEmail, isValidPhone]);
 
     const submitHandler = () => {
         if (canSubmit) {
-            console.log('open',openingData);
-            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, mapLocation, openingData, email, phone }));
+            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, coordinate, openingData, email, phone }));
         }
     };
 
@@ -153,14 +152,14 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                 <tr>
                     <td className="font-bold w-32 min-w-min py-4">ตำแหน่งร้าน</td>
                     <td>
-                        <InputMapLocation
-                            initMapLocation={mapLocation}
-                            msgLocationNull="โปรดเลือกตำแหน่งร้าน"
-                            onLocationNullChange={(state) => {
-                                setIsValidMapLocation(!state);
+                        <InputCoordinate
+                            initCoordinate={coordinate}
+                            msgCoordinateNull="โปรดเลือกตำแหน่งร้าน"
+                            onCoordinateNullChange={(state) => {
+                                setIsValidCoordinate(!state);
                             }}
-                            onMapLocationChange={(location) => {
-                                setMapLocation({ lat: location.lat, lng: location.lng });
+                            onCoordinateChange={(state) => {
+                                setCoordinate(state);
                             }}
                         />
                     </td>

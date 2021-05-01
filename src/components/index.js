@@ -14,4 +14,4 @@ export { default as InputImageFile } from './InputImageFile';
 // export { default as InputTextarea } from './InputTextarea';
 
 export { default as InputOpeningStore } from './InputOpeningStore';
-export { default as InputMapLocation } from './InputMapLocation';
+export { default as InputCoordinate } from './InputCoordinate';

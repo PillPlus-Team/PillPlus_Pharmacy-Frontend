@@ -5,23 +5,16 @@ import '../../css/react-modal.css';
 
 import MapPinLocation from './MapPinLocation';
 
-const InputMapLocation = ({
-    initMapLocation = { lat: null, lng: null },
-    msgLocationNull,
-    onLocationNullChange = () => {},
-    onMapLocationChange = () => {},
-}) => {
-    const [mapLocation, setMapLocation] = useState(initMapLocation);
-    const [tempMapLocation, setTempMapLocation] = useState(mapLocation);
+const InputCoordinate = ({ initCoordinate, msgCoordinateNull, onCoordinateNullChange = () => {}, onCoordinateChange = () => {} }) => {
+    const [coordinate, setCoordinate] = useState(initCoordinate);
+    const [tempCoordinate, setTempCoordinate] = useState(coordinate);
 
-    const [isNull, setIsNull] = useState(!(mapLocation.lat && mapLocation.lng));
+    const [isNull, setIsNull] = useState(!coordinate);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    const canConfirm = tempMapLocation.lat && tempMapLocation.lng;
-
     const validation = () => {
-        if (!(mapLocation.lat && mapLocation.lng)) {
+        if (!coordinate) {
             setIsNull(true);
         } else {
             setIsNull(false);
@@ -29,12 +22,12 @@ const InputMapLocation = ({
     };
 
     useEffect(() => {
-        onMapLocationChange(mapLocation);
+        onCoordinateChange(coordinate);
         validation();
-    }, [mapLocation]);
+    }, [coordinate]);
 
     useEffect(() => {
-        onLocationNullChange(isNull);
+        onCoordinateNullChange(isNull);
     }, [isNull]);
 
     return (
@@ -48,17 +41,17 @@ const InputMapLocation = ({
                     setModalIsOpen(true);
                 }}
             >
-                {isNull && <p>{msgLocationNull}</p>}
+                {isNull && <p>{msgCoordinateNull}</p>}
                 {!isNull && (
                     <div className="flex flex-row justify-center space-x-2 text-green-400 ">
-                        <p>LAT : {Number(mapLocation.lat).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
-                        <p>LNT : {Number(mapLocation.lng).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
+                        <p>LAT : {Number(coordinate.lat).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
+                        <p>LNT : {Number(coordinate.lng).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
                     </div>
                 )}
             </button>
 
             <Modal
-                contentLabel="MapLocationInput-Modal"
+                contentLabel="CoordinateInput-Modal"
                 isOpen={modalIsOpen}
                 closeTimeoutMS={300}
                 onRequestClose={() => {
@@ -80,9 +73,9 @@ const InputMapLocation = ({
             >
                 <div className="flex flex-col w-full h-full justify-center items-center">
                     <MapPinLocation
-                        initLocation={mapLocation}
+                        initLocation={coordinate}
                         onLocationChange={(location) => {
-                            setTempMapLocation(location);
+                            setTempCoordinate(location);
                         }}
                     />
 
@@ -98,12 +91,12 @@ const InputMapLocation = ({
                         </button>
                         <button
                             className={`w-24 p-2 text-white rounded-lg focus:outline-none  ${
-                                canConfirm ? 'bg-green-500 hover:bg-green-800' : 'bg-gray-300 cursor-not-allowed'
+                                tempCoordinate ? 'bg-green-500 hover:bg-green-800' : 'bg-gray-300 cursor-not-allowed'
                             }`}
                             type="button"
-                            disabled={!canConfirm}
+                            disabled={!tempCoordinate}
                             onClick={() => {
-                                setMapLocation(tempMapLocation);
+                                setCoordinate(tempCoordinate);
                                 setModalIsOpen(false);
                             }}
                         >
@@ -115,4 +108,4 @@ const InputMapLocation = ({
         </>
     );
 };
-export default InputMapLocation;
+export default InputCoordinate;

@@ -15,6 +15,11 @@ export const userLogin = ({ email, password, history }) => {
             email: 'phoom0529@gmail.com',
             phone: '0891234567',
             avatarUrl: 'https://avatars2.githubusercontent.com/u/36500890?s=460&u=c6d4793fcb2ec759704fa68bfe4806e93fbf2569&v=4',
+            coordinate: {
+                lat: 13.566,
+                lng: 103.112,
+            },
+            activated: true,
         };
 
         dispatch({ type: USER_LOGIN, user: user });
@@ -29,12 +34,12 @@ export const userEditProfileToggle = () => {
     };
 };
 
-export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, openingData, email, phone }) => {
+export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, coordinate, openingData, email, phone }) => {
     return async (dispatch, getState) => {
         const { user } = getState();
         dispatch({
             type: USER_UPDATE_PROFILE,
-            user: { ...user, avatarUrl, name, phamacy, location, lat: mapLocation.lat, lng: mapLocation.lng, openingData, email, phone },
+            user: { ...user, avatarUrl, name, phamacy, location, coordinate, openingData, email, phone },
         });
         Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success' });
     };
@@ -154,7 +159,7 @@ export const userLogout = ({ history }) => {
 //     };
 // };
 
-// export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, openingData, email, phone }) => {
+// export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, coordinate, openingData, email, phone }) => {
 //     return async (dispatch, getState) => {
 //         const { user } = getState();
 
@@ -175,8 +180,7 @@ export const userLogout = ({ history }) => {
 //                 name,
 //                 phamacy,
 //                 location,
-//                 lat: mapLocation.lat,
-//                 lng: mapLocation.lng,
+//                 coordinate
 //                 openingData,
 //                 email,
 //                 phone,
