@@ -9,7 +9,7 @@ import mapStyles from './config/mapStyles';
 const libraries = ['places'];
 const initCenter = { lat: 13.729753400894694, lng: 100.77806063628931 };
 
-const Locate = ({ panTo }) => {
+const Locate = ({ panTo, onGetLocation = () => {} }) => {
     return (
         <button
             className="flex p-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none min-w-min hover:bg-gray-200 active:bg-gray-100"
@@ -19,6 +19,7 @@ const Locate = ({ panTo }) => {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
                     });
+                    onGetLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
                 });
             }}
         >
@@ -60,7 +61,7 @@ const Search = ({ panTo }) => {
     };
 
     return (
-        <div className="">
+        <div>
             <Combobox onSelect={handleSelect}>
                 <ComboboxInput
                     className="w-96 px-2 py-2 text-gray-500 border-b-2 border-gray-500 placeholder-gray-400 rounded-t-md focus:outline-none focus:border-gray-400 focus:bg-gray-100 hover:border-gray-400 hover:bg-gray-100"
@@ -114,10 +115,15 @@ const MapPinLocation = ({ initLocation = { lat: 13.729753400894694, lng: 100.778
     return (
         <div className="flex flex-col justify-center items-center w-full h-full ">
             <div className="flex flex-col md:flex-row justify-between items-center w-10/12 mb-4 space-y-2 md:space-x-2">
-                <Locate panTo={panTo} />
+                <Locate
+                    panTo={panTo}
+                    onGetLocation={(location) => {
+                        setLocation(location);
+                    }}
+                />
                 <Search panTo={panTo} />
             </div>
-
+            s
             <GoogleMap
                 id="map"
                 mapContainerClassName="w-10/12 h-5/6 rounded-lg shadow-md"

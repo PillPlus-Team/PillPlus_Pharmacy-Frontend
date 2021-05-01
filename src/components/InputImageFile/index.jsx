@@ -21,7 +21,11 @@ const InputImageFile = ({ className, id, name, accept, limitSizeMB, initImageUri
                 type="file"
                 accept={accept}
                 onChange={(event) => {
-                    setPreviewImageUri(URL.createObjectURL(event.target.files[0]));
+                    let binaryData = [];
+                    binaryData.push(event.target.files[0]);
+
+                    let url = URL.createObjectURL(new Blob(binaryData, { type: 'application/zip' }));
+                    setPreviewImageUri(url);
 
                     if (event.target.files[0].size <= limitSizeMB * 1e6) {
                         setIsValidSize(true);
