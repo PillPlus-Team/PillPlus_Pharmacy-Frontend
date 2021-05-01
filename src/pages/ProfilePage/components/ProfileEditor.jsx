@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { InputText, InputImageFile, InputMapLocation } from '../../../components';
+import { InputText, InputImageFile, InputMapLocation, InputOpeningStore } from '../../../components';
 
 import { userEditProfileToggle, userUpdateProfile, userChangePassword } from '../../../actions/userActions';
 
@@ -13,7 +13,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     const [phamacy, setPhamacy] = useState(userInfo.phamacy);
     const [location, setLocation] = useState(userInfo.location);
     const [mapLocation, setMapLocation] = useState({ lat: userInfo.lat, lng: userInfo.lng });
-    const [openingDescription, setOpeningDescription] = useState(userInfo.openingDescription);
+    const [openingData, setOpeningData] = useState(userInfo.openingData);
     const [email, setEmail] = useState(userInfo.email);
     const [phone, setPhone] = useState(userInfo.phone);
 
@@ -22,7 +22,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     const [isValidPhamacy, setIsValidPhamacy] = useState(true);
     const [isValidLocation, setIsValidLocation] = useState(true);
     const [isValidMapLocation, setIsValidMapLocation] = useState(mapLocation.lat && mapLocation.lng);
-    const [isValidOpeningDescription, seIsValidOpeningDescription] = useState(userInfo.openingDescription != null);
+    const [isValidOpeningData, setIsValidOpeningData] = useState(userInfo.openingData != null);
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPhone, setIsValidPhone] = useState(true);
 
@@ -40,32 +40,29 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     });
 
     useEffect(() => {
-        console.log(mapLocation);
-    }, [mapLocation]);
-
-    useEffect(() => {
         setCanSubmit(
             isValidavatarUri &&
                 isValidName &&
                 isValidPhamacy &&
                 isValidLocation &&
                 isValidMapLocation &&
-                isValidOpeningDescription &&
+                isValidOpeningData &&
                 isValidEmail &&
                 isValidPhone
         );
-    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidMapLocation, isValidOpeningDescription, isValidEmail, isValidPhone]);
+    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidMapLocation, isValidOpeningData, isValidEmail, isValidPhone]);
 
     const submitHandler = () => {
         if (canSubmit) {
-            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, mapLocation, openingDescription, email, phone }));
+            console.log('open',openingData);
+            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, mapLocation, openingData, email, phone }));
         }
     };
 
     return (
         <div className="flex flex-row min-w-max h-176 bg-white rounded-lg shadow-md">
             <InputImageFile
-                className="ml-24 mt-24 rounded-lg"
+                className="ml-24 mt-12 rounded-lg"
                 id="InputImageFile-avatar"
                 name="avatar"
                 accept="image/jpeg"
@@ -78,7 +75,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                     setavatarUri(state);
                 }}
             />
-            <table className="table-fixed w-96 ml-32 mt-24 text-lg">
+            <table className="table-fixed w-96 ml-32 mt-12 text-lg">
                 <tr>
                     <td className="font-bold w-32 min-w-max py-4">ID</td>
                     <td className="w-96">{userInfo.ID}</td>
@@ -158,8 +155,9 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                     <td>
                         <InputMapLocation
                             initMapLocation={mapLocation}
-                            onValidChange={(state) => {
-                                setIsValidMapLocation(state);
+                            msgLocationNull="โปรดเลือกตำแหน่งร้าน"
+                            onLocationNullChange={(state) => {
+                                setIsValidMapLocation(!state);
                             }}
                             onMapLocationChange={(location) => {
                                 setMapLocation({ lat: location.lat, lng: location.lng });
@@ -170,9 +168,16 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                 <tr>
                     <td className="font-bold w-32 min-w-min py-4">เวลาทำการ</td>
                     <td>
-                        <button className="w-full p-2 bg-white text-green-500  border-2  border-green-500 rounded-lg focus:outline-none hover:bg-green-100">
-                            {openingDescription ? openingDescription : 'กำหนดเวลาทำการ'}
-                        </button>
+                        <InputOpeningStore
+                            initOpeningData={openingData}
+                            msgOpeningNull="โปรดกำหนดเวลาทำการ"
+                            onOpeningNullChange={(state) => {
+                                setIsValidOpeningData(!state);
+                            }}
+                            onOpeningDataChange={(state) => {
+                                setOpeningData(state);
+                            }}
+                        />
                     </td>
                 </tr>
                 <tr>

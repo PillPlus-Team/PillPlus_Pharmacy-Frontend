@@ -9,7 +9,7 @@ export { default as SearchBar } from './SearchBar';
 
 export { default as InputText } from './InputText';
 export { default as InputNumber } from './InputNumber';
-// export { default as InputDropdown } from './InputDropdown';
+export { default as InputDropdown } from './InputDropdown';
 export { default as InputImageFile } from './InputImageFile';
 // export { default as InputTextarea } from './InputTextarea';
 

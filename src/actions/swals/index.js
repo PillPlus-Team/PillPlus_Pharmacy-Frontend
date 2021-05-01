@@ -5,7 +5,7 @@ export const SwalDefault = Swal;
 export const LoadingModal = Swal.mixin({
     allowEnterKey: false,
     allowOutsideClick: false,
-})
+});
 
 export const ConfirmDialog = Swal.mixin({
     customClass: {
@@ -14,7 +14,7 @@ export const ConfirmDialog = Swal.mixin({
     },
     confirmButtonText: 'ตกลง',
     cancelButtonText: 'ยกเลิก',
-    confirmButtonColor: '#3B82F6',
+    confirmButtonColor: '#10B981',
     cancelButtonColor: '#9CA3AF',
     showConfirmButton: true,
     showCancelButton: true,
@@ -40,7 +40,7 @@ export const ImportantNotificationModal = Swal.mixin({
         confirmButton: 'w-24',
     },
     confirmButtonText: 'รับทราบ',
-    confirmButtonColor: '#3B82F6',
+    confirmButtonColor: '#10B981',
     showConfirmButton: true,
     showCancelButton: false,
     allowEnterKey: false,
@@ -52,7 +52,7 @@ export const ChaningModal = Swal.mixin({
         confirmButton: 'w-24',
         cancelButton: 'w-24',
     },
-    confirmButtonColor: '#3B82F6',
+    confirmButtonColor: '#10B981',
     cancelButtonColor: '#9CA3AF',
     showCancelButton: true,
     showConfirmButton: true,

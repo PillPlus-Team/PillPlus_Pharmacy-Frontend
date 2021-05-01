@@ -5,11 +5,16 @@ import '../../css/react-modal.css';
 
 import MapPinLocation from './MapPinLocation';
 
-const InputMapLocation = ({ initMapLocation = { lat: null, lng: null }, onValidChange = () => {}, onMapLocationChange = () => {} }) => {
+const InputMapLocation = ({
+    initMapLocation = { lat: null, lng: null },
+    msgLocationNull,
+    onLocationNullChange = () => {},
+    onMapLocationChange = () => {},
+}) => {
     const [mapLocation, setMapLocation] = useState(initMapLocation);
     const [tempMapLocation, setTempMapLocation] = useState(mapLocation);
 
-    const [isValid, setIsValid] = useState(mapLocation.lat && mapLocation.lng);
+    const [isNull, setIsNull] = useState(!(mapLocation.lat && mapLocation.lng));
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -17,9 +22,9 @@ const InputMapLocation = ({ initMapLocation = { lat: null, lng: null }, onValidC
 
     const validation = () => {
         if (!(mapLocation.lat && mapLocation.lng)) {
-            setIsValid(false);
+            setIsNull(true);
         } else {
-            setIsValid(true);
+            setIsNull(false);
         }
     };
 
@@ -29,22 +34,22 @@ const InputMapLocation = ({ initMapLocation = { lat: null, lng: null }, onValidC
     }, [mapLocation]);
 
     useEffect(() => {
-        onValidChange(isValid);
-    }, [isValid]);
+        onLocationNullChange(isNull);
+    }, [isNull]);
 
     return (
         <>
             <button
                 className={`w-full p-2 bg-white border-2 rounded-lg focus:outline-none ${
-                    isValid ? 'text-green-500 border-2 border-green-500 hover:bg-green-100 ' : 'text-red-500  border-red-500 hover:bg-red-100 '
+                    isNull ? 'text-red-500  border-red-500 hover:bg-red-100 ' : 'text-green-500 border-2 border-green-500 hover:bg-green-100 '
                 }`}
                 type="button"
                 onClick={() => {
                     setModalIsOpen(true);
                 }}
             >
-                {!isValid && 'โปรดเลือกตำเเหน่งร้าน'}
-                {isValid && (
+                {isNull && <p>{msgLocationNull}</p>}
+                {!isNull && (
                     <div className="flex flex-row justify-center space-x-2 text-green-400 ">
                         <p>LAT : {Number(mapLocation.lat).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
                         <p>LNT : {Number(mapLocation.lng).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
@@ -55,9 +60,23 @@ const InputMapLocation = ({ initMapLocation = { lat: null, lng: null }, onValidC
             <Modal
                 contentLabel="MapLocationInput-Modal"
                 isOpen={modalIsOpen}
+                closeTimeoutMS={300}
                 onRequestClose={() => {
                     setModalIsOpen(false);
                 }}
+                style={{
+                    overlay: {
+                        display: 'flex',
+                        position: 'fixed',
+                        height: '100vh',
+                        width: '100vw',
+                        margin: 'auto',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    },
+                }}
+                ariaHideApp={false}
             >
                 <div className="flex flex-col w-full h-full justify-center items-center">
                     <MapPinLocation

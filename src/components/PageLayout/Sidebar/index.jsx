@@ -22,7 +22,7 @@ const SideBar = ({ menuList }) => {
                                 exact
                                 to={value.url}
                                 className="flex justify-start items-center w-full h-16 hover:bg-green-400"
-                                activeClassName="border-l-4 text-xl bg-green-400 border-black"
+                                activeClassName="border-l-4 text-xl bg-green-400 border-green-700"
                             >
                                 <p className="pl-8">{value.title}</p>
                             </NavLink>

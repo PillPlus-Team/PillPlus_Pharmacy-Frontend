@@ -66,7 +66,7 @@ const InputText = ({
             <p className="text-red-400 italic text-sm">{errorMessage}</p>
             <input
                 className={`w-full p-2 pl-4 rounded-lg border-2 focus:outline-none ${
-                    isValid ? 'border-gray-200  focus:border-blue-500 ' : 'border-red-300 focus:border-red-500'
+                    isValid ? 'border-gray-200  focus:border-green-500 ' : 'border-red-300 focus:border-red-500'
                 }`}
                 id={id}
                 name={name}

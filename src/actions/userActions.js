@@ -29,12 +29,12 @@ export const userEditProfileToggle = () => {
     };
 };
 
-export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, email, phone }) => {
+export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, openingData, email, phone }) => {
     return async (dispatch, getState) => {
         const { user } = getState();
         dispatch({
             type: USER_UPDATE_PROFILE,
-            user: { ...user, avatarUrl, name, phamacy, location, lat: mapLocation.lat, lng: mapLocation.lng, email, phone },
+            user: { ...user, avatarUrl, name, phamacy, location, lat: mapLocation.lat, lng: mapLocation.lng, openingData, email, phone },
         });
         Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success' });
     };
@@ -154,7 +154,7 @@ export const userLogout = ({ history }) => {
 //     };
 // };
 
-// export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, email, phone }) => {
+// export const userUpdateProfile = ({ avatarUrl, name, phamacy, location, mapLocation, openingData, email, phone }) => {
 //     return async (dispatch, getState) => {
 //         const { user } = getState();
 
@@ -177,6 +177,7 @@ export const userLogout = ({ history }) => {
 //                 location,
 //                 lat: mapLocation.lat,
 //                 lng: mapLocation.lng,
+//                 openingData,
 //                 email,
 //                 phone,
 //             }),

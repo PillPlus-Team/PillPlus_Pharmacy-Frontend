@@ -50,7 +50,7 @@ const DispensePage = ({ socket }) => {
         <PageLayout userInfo={user} menuList={menuList}>
             <div className="flex flex-row justify-between w-full h-full">
                 <div className="min-w-min">
-                    <p className="text-3xl border-l-4 pl-4 mb-4">ลำดับ</p>
+                    <p className="text-3xl border-l-4 border-green-700 pl-4 mb-4">ลำดับ</p>
                     <div className="h-176">
                         <PatientQueue
                             patientQueueList={invoices.list}
@@ -62,7 +62,7 @@ const DispensePage = ({ socket }) => {
                 </div>
                 <div className="flex flex-col ml-14 ">
                     <div className="min-w-min ">
-                        <p className="text-3xl border-l-4 pl-4 mb-4">ข้อมูลผู้ป่วย</p>
+                        <p className="text-3xl border-l-4 border-green-700 pl-4 mb-4">ข้อมูลผู้ป่วย</p>
                         {!selectedInvoice && (
                             <div className="flex justify-center items-center w-160 h-160 bg-white shadow-md rounded-lg">
                                 <p className="font-medium text-gray-400 tracking-wider">โปรดเลือกผู้ป่วย</p>

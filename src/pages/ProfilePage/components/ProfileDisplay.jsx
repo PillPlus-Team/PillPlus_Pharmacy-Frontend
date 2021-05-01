@@ -7,9 +7,9 @@ const ProfileDisplay = ({ userInfo }) => {
 
     return (
         <div className="flex flex-row min-w-max h-176 bg-white rounded-lg shadow-md ">
-            <img className="w-80 h-80 ml-24 mt-24 rounded-lg shadow-md object-cover" src={userInfo.avatarUri} alt="user-avatar" />
+            <img className="w-80 h-80 ml-24 mt-12 rounded-lg shadow-md object-cover" src={userInfo.avatarUri} alt="user-avatar" />
             <div className="flex flex-row w-full">
-                <table className="table-fixed w-96 ml-32 mt-24 text-lg">
+                <table className="table-fixed w-96 ml-32 mt-12 text-lg">
                     <tr>
                         <td className="font-bold w-32 min-w-max py-4">ID</td>
                         <td className="w-96">{userInfo.ID}</td>
@@ -43,13 +43,21 @@ const ProfileDisplay = ({ userInfo }) => {
                     <tr>
                         <td className="font-bold w-32 min-w-min py-4">เวลาทำการ</td>
                         <td>
-                            {!userInfo.openingDesription && (
+                            {!userInfo.openingData && (
                                 <div className="flex flex-row space-x-2 text-red-400 ">ยังไม่ได้กำหนด (กำหนดเพื่อ Activate)</div>
                             )}
-                            {userInfo.openingDesription && (
-                                <div className="flex flex-row space-x-2 text-sm text-gray-400 ">
-                                    <p>LAT : {Number(userInfo.lat).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
-                                    <p>LNT : {Number(userInfo.lng).toLocaleString('th-TH', { minimumFractionDigits: 5 })}</p>
+                            {userInfo.openingData && (
+                                <div className="flex flex-col justify-start text-sm">
+                                    {userInfo.openingData.map((value) => {
+                                        return (
+                                            <p className={`${value.opening ? 'text-gray-400' : 'text-red-500'}`}>
+                                                {value.day} :{' '}
+                                                {value.opening
+                                                    ? `${value.openHour}:${value.openMinute} - ${value.closeHour}:${value.closeMinute}`
+                                                    : 'ปิด'}
+                                            </p>
+                                        );
+                                    })}
                                 </div>
                             )}
                         </td>
