@@ -12,7 +12,7 @@ const initCenter = { lat: 13.729753400894694, lng: 100.77806063628931 };
 const Locate = ({ panTo, onGetLocation = () => {} }) => {
     return (
         <button
-            className="flex p-2 text-black border-2 border-gray-300 rounded-lg focus:outline-none min-w-min hover:bg-gray-200 active:bg-gray-100"
+            className="flex absolute z-10 p-2 right-2.5 bottom-28 duration-500 ease-out transform hover:scale-150 focus:outline-none "
             onClick={() => {
                 navigator.geolocation.getCurrentPosition((position) => {
                     panTo({
@@ -23,12 +23,7 @@ const Locate = ({ panTo, onGetLocation = () => {} }) => {
                 });
             }}
         >
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
-            </svg>
-
-            <p className="ml-1">ตำแหน่งของฉัน</p>
+            <img className="w-6 h-6" src="/images/locate-image.png" />
         </button>
     );
 };
@@ -115,12 +110,6 @@ const MapPinLocation = ({ initLocation = initCenter, onLocationChange = () => {}
     return (
         <div className="flex flex-col justify-center items-center w-full h-full ">
             <div className="flex flex-col md:flex-row justify-between items-center w-10/12 mb-4 space-y-2 md:space-x-2">
-                <Locate
-                    panTo={panTo}
-                    onGetLocation={(location) => {
-                        setLocation(location);
-                    }}
-                />
                 <Search panTo={panTo} />
             </div>
 
@@ -137,6 +126,12 @@ const MapPinLocation = ({ initLocation = initCenter, onLocationChange = () => {}
                 onClick={onMapClick}
                 onLoad={onMapLoad}
             >
+                <Locate
+                    panTo={panTo}
+                    onGetLocation={(location) => {
+                        setLocation(location);
+                    }}
+                />
                 <Marker
                     key={`${location.lat}-${location.lng}`}
                     position={{ lat: location.lat, lng: location.lng }}
