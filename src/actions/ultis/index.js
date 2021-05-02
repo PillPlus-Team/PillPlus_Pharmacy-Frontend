@@ -9,7 +9,7 @@ export const menuList = [
     },
     {
         title: 'ยอดประจำเดือน',
-        url: '/',
+        url: '/statement',
     },
     {
         title: 'จัดการคลังยา',

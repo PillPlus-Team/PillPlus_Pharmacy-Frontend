@@ -1,6 +1,6 @@
 const InvoiceInfoMonitor = ({ invoice }) => {
     return (
-        <div className="flex w-full h-full p-4 bg-white shadow-md rounded-lg overflow-y-auto">
+        <div className="flex w-full h-full p-4 bg-white border rounded-lg overflow-y-auto">
             <table className="table-fixed w-full min-w-full divide-y divide-gray-200">
                 <tr>
                     <td className="font-bold w-36 py-2">รหัสใบเสร็จ</td>
@@ -68,6 +68,12 @@ const InvoiceInfoMonitor = ({ invoice }) => {
                                 </div>
                             );
                         })}
+                    </td>
+                </tr>
+                <tr>
+                    <td className="font-bold w-36 py-2">ค่าบริการ</td>
+                    <td className="w-96 py-2 text-right">
+                        {Number(invoice.serviceCharge).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 })}
                     </td>
                 </tr>
                 <tr>

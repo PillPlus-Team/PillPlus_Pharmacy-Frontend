@@ -52,13 +52,10 @@ const InputCoordinate = ({ initCoordinate, msgCoordinateNull, onCoordinateNullCh
                 }}
                 style={{
                     overlay: {
-                        display: 'flex',
                         position: 'fixed',
                         height: '100vh',
                         width: '100vw',
                         margin: 'auto',
-                        justifyContent: 'center',
-                        alignItems: 'center',
                         backgroundColor: 'rgba(0, 0, 0, 0.4)',
                     },
                 }}
@@ -72,7 +69,7 @@ const InputCoordinate = ({ initCoordinate, msgCoordinateNull, onCoordinateNullCh
                         }}
                     />
 
-                    <div className="flex flex-row ml-auto mt-4 space-x-2">
+                    <div className="flex flex-row ml-auto mt-auto space-x-2">
                         <button
                             className="w-24 p-2 bg-gray-500 text-white rounded-lg focus:outline-none hover:bg-gray-400"
                             type="button"

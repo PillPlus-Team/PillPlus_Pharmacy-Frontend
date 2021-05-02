@@ -12,14 +12,8 @@ const PillRowEditor = ({ index, pill }) => {
 
     const [isValidAmount, setIsValidAmount] = useState(true);
 
-    const [canSubmit, setCanSubmit] = useState(true);
-
-    useEffect(() => {
-        setCanSubmit(isValidAmount);
-    }, [isValidAmount]);
-
     const submitHandler = () => {
-        if (canSubmit) {
+        if (isValidAmount) {
             dispatch(pillsUpdate({ _id: pill._id, amount: amount }));
         }
     };
@@ -70,11 +64,11 @@ const PillRowEditor = ({ index, pill }) => {
                 <td className="w-20 px-6 py-4 whitespace-nowrap text-center font-medium align-top">
                     <button
                         className={`focus:outline-none ${
-                            canSubmit ? 'text-green-600 hover:text-green-900 hover:underline' : 'text-gray-400 cursor-not-allowed'
+                            isValidAmount ? 'text-green-600 hover:text-green-900 hover:underline' : 'text-gray-400 cursor-not-allowed'
                         }`}
                         type="button"
                         onClick={submitHandler}
-                        disabled={!canSubmit}
+                        disabled={!isValidAmount}
                     >
                         บันทึก
                     </button>
