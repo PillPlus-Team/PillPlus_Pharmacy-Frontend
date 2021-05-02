@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import Modal from 'react-modal';
 import '../../css/react-modal.css';
@@ -9,21 +9,14 @@ const InputCoordinate = ({ initCoordinate, msgCoordinateNull, onCoordinateNullCh
     const [coordinate, setCoordinate] = useState(initCoordinate);
     const [tempCoordinate, setTempCoordinate] = useState(coordinate);
 
-    const [isNull, setIsNull] = useState(!coordinate);
-
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    const validation = () => {
-        if (!coordinate) {
-            setIsNull(true);
-        } else {
-            setIsNull(false);
-        }
-    };
+    const isNull = useMemo(() => {
+        return !coordinate;
+    }, [coordinate]);
 
     useEffect(() => {
         onCoordinateChange(coordinate);
-        validation();
     }, [coordinate]);
 
     useEffect(() => {

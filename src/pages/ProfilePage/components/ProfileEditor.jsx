@@ -13,7 +13,15 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
     const [phamacy, setPhamacy] = useState(userInfo.phamacy);
     const [location, setLocation] = useState(userInfo.location);
     const [coordinate, setCoordinate] = useState(userInfo.coordinate);
-    const [openingData, setOpeningData] = useState(userInfo.openingData);
+    /* Fix Shallow copy - create new array and copy*/
+    const [openingData, setOpeningData] = useState(() => {
+        if (userInfo.openingData) {
+            return userInfo.openingData.map((element) => {
+                return { ...element };
+            });
+        }
+        return undefined;
+    });
     const [email, setEmail] = useState(userInfo.email);
     const [phone, setPhone] = useState(userInfo.phone);
 

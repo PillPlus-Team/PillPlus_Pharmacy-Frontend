@@ -15,11 +15,7 @@ export const userLogin = ({ email, password, history }) => {
             email: 'phoom0529@gmail.com',
             phone: '0891234567',
             avatarUrl: 'https://avatars2.githubusercontent.com/u/36500890?s=460&u=c6d4793fcb2ec759704fa68bfe4806e93fbf2569&v=4',
-            coordinate: {
-                lat: 13.566,
-                lng: 103.112,
-            },
-            activated: true,
+            activated: false,
         };
 
         dispatch({ type: USER_LOGIN, user: user });

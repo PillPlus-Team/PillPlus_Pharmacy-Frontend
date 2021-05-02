@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import ToggleButton from 'react-toggle-button';
 import Modal from 'react-modal';
@@ -35,30 +35,38 @@ const minuteListGenerater = (startMinute = 0, endMinute = 59) => {
 };
 
 const InputOpeningStore = ({ initOpeningData, msgOpeningNull, onOpeningNullChange = () => {}, onOpeningDataChange = () => {} }) => {
-    const [openingData, setOpeningData] = useState(initOpeningData);
+    /* Fix Shallow copy - create new array and copy*/
+    const [openingData, setOpeningData] = useState(() => {
+        if (initOpeningData) {
+            return initOpeningData.map((element) => {
+                return { ...element };
+            });
+        }
+        return undefined;
+    });
+    /* Fix useEffect not recognize array state change*/
     const [countOpeningDataChange, setCountOpeningDataChange] = useState(0);
 
-    if (initOpeningData == null) {
-        initOpeningData = dafaultOpeningData;
-    }
-    const [tempOpeningData, setTempOpeningData] = useState(initOpeningData);
+    /* Fix Shallow copy - create new array and copy */
+    const [tempOpeningData, setTempOpeningData] = useState(() => {
+        if (openingData) {
+            return openingData.map((element) => {
+                return { ...element };
+            });
+        }
+        return dafaultOpeningData;
+    });
+    /* Fix useEffect not recognize array state change*/
     const [countTempOpeningDataChange, setCountTempOpeningDataChange] = useState(0);
-
-    const [isNull, setIsNull] = useState(openingData == null);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    const validation = () => {
-        if (openingData == null) {
-            setIsNull(true);
-        } else {
-            setIsNull(false);
-        }
-    };
+    const isNull = useMemo(() => {
+        return !openingData;
+    }, [openingData]);
 
     useEffect(() => {
         onOpeningDataChange(openingData);
-        validation();
     }, [countOpeningDataChange]);
 
     useEffect(() => {

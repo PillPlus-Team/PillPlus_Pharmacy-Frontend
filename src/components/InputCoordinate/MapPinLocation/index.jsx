@@ -80,7 +80,7 @@ const Search = ({ panTo }) => {
     );
 };
 
-const MapPinLocation = ({ initLocation = { lat: 13.729753400894694, lng: 100.77806063628931 }, onLocationChange = () => {} }) => {
+const MapPinLocation = ({ initLocation = initCenter, onLocationChange = () => {} }) => {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: 'AIzaSyBcyS0VEgAbAzAHQYprx3ycMwkmfg7noxE',
         libraries,
@@ -123,7 +123,7 @@ const MapPinLocation = ({ initLocation = { lat: 13.729753400894694, lng: 100.778
                 />
                 <Search panTo={panTo} />
             </div>
-            s
+
             <GoogleMap
                 id="map"
                 mapContainerClassName="w-10/12 h-5/6 rounded-lg shadow-md"
