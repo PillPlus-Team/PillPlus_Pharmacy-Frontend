@@ -5,6 +5,7 @@ const InputImageFile = ({ className, id, name, accept, limitSizeMB, initImageUri
     const [isValidSize, setIsValidSize] = useState(true);
 
     useEffect(() => {
+        console.log(previewImageUri);
         onValueChange(previewImageUri);
     }, [previewImageUri]);
 

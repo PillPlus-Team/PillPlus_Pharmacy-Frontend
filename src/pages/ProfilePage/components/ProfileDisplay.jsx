@@ -20,7 +20,7 @@ const ProfileDisplay = ({ userInfo }) => {
                     </tr>
                     <tr>
                         <td className="font-bold w-32 min-w-min py-4">ชื่อร้าน</td>
-                        <td>{userInfo.phamacy}</td>
+                        <td>{userInfo.pharmacy}</td>
                     </tr>
                     <tr>
                         <td className="font-bold w-32 min-w-min py-4">ที่อยู่</td>
@@ -43,10 +43,10 @@ const ProfileDisplay = ({ userInfo }) => {
                     <tr>
                         <td className="font-bold w-32 min-w-min py-4">เวลาทำการ</td>
                         <td>
-                            {!userInfo.openingData && (
+                            {userInfo.openingData.length === 0 && (
                                 <div className="flex flex-row space-x-2 text-red-400 ">ยังไม่ได้กำหนด (กำหนดเพื่อ Activate)</div>
                             )}
-                            {userInfo.openingData && (
+                            {userInfo.openingData.length !== 0 && (
                                 <div className="flex flex-col justify-start text-sm">
                                     {userInfo.openingData.map((value) => {
                                         return (

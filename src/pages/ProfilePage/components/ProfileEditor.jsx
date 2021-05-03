@@ -10,7 +10,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
 
     const [avatarUri, setavatarUri] = useState(userInfo.avatarUri);
     const [name, setName] = useState(userInfo.name);
-    const [phamacy, setPhamacy] = useState(userInfo.phamacy);
+    const [pharmacy, setPharmacy] = useState(userInfo.pharmacy);
     const [location, setLocation] = useState(userInfo.location);
     const [coordinate, setCoordinate] = useState(userInfo.coordinate);
     /* Fix Shallow copy - create new array and copy*/
@@ -27,7 +27,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
 
     const [isValidavatarUri, setIsValidavatarUri] = useState(true);
     const [isValidName, setIsValidName] = useState(true);
-    const [isValidPhamacy, setIsValidPhamacy] = useState(true);
+    const [isValidPharmacy, setIsValidPharmacy] = useState(true);
     const [isValidLocation, setIsValidLocation] = useState(true);
     const [isValidCoordinate, setIsValidCoordinate] = useState(userInfo.coordinate != null);
     const [isValidOpeningData, setIsValidOpeningData] = useState(userInfo.openingData != null);
@@ -51,18 +51,18 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
         setCanSubmit(
             isValidavatarUri &&
                 isValidName &&
-                isValidPhamacy &&
+                isValidPharmacy &&
                 isValidLocation &&
                 isValidCoordinate &&
                 isValidOpeningData &&
                 isValidEmail &&
                 isValidPhone
         );
-    }, [isValidavatarUri, isValidName, isValidPhamacy, isValidLocation, isValidCoordinate, isValidOpeningData, isValidEmail, isValidPhone]);
+    }, [isValidavatarUri, isValidName, isValidPharmacy, isValidLocation, isValidCoordinate, isValidOpeningData, isValidEmail, isValidPhone]);
 
     const submitHandler = () => {
         if (canSubmit) {
-            dispatch(userUpdateProfile({ avatarUri, name, phamacy, location, coordinate, openingData, email, phone }));
+            dispatch(userUpdateProfile({ avatarUri, name, pharmacy, location, coordinate, openingData, email, phone }));
         }
     };
 
@@ -74,7 +74,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                 name="avatar"
                 accept="image/jpeg"
                 limitSizeMB={1}
-                initImageUrl={avatarUri}
+                initImageUri={avatarUri}
                 onValidChange={(state) => {
                     setIsValidavatarUri(state);
                 }}
@@ -118,7 +118,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                             id="InputText-phamacy"
                             name="phamacy"
                             type="text"
-                            initValue={phamacy}
+                            initValue={pharmacy}
                             placeholder="ชื่อร้าน"
                             autoComplete="off"
                             required
@@ -127,10 +127,10 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                             pattern="^[a-zA-Zก-๏0-9\s]+$"
                             msgPatternError="อังกฤษ/ไทย/ตัวเลข เท่านั้น"
                             onValidChange={(state) => {
-                                setIsValidPhamacy(state);
+                                setIsValidPharmacy(state);
                             }}
                             onValueChange={(state) => {
-                                setPhamacy(state);
+                                setPharmacy(state);
                             }}
                         />
                     </td>

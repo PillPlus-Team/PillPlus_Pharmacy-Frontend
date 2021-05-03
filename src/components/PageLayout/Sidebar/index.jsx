@@ -1,14 +1,13 @@
 import { useDispatch } from 'react-redux';
-import { NavLink, Link, useHistory } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import { userLogout } from '../../../actions/userActions.js';
 
 const SideBar = ({ menuList }) => {
     const dispatch = useDispatch();
-    const history = useHistory();
-    
+
     const logoutHandler = () => {
-        dispatch(userLogout({ history }));
+        dispatch(userLogout());
     };
 
     return (

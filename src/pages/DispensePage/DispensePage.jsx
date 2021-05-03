@@ -24,26 +24,26 @@ const DispensePage = ({ socket }) => {
     useEffect(() => {
         dispatch(invoicesFetch());
 
-        // socket.on('message', (message) => {
-        //     dispatch(invoicesFetchByIO());
-        //     console.log(message);
-        // });
-        // socket.on('err', (errror) => {
-        //     console.error(errror);
-        // });
+        socket.on('message', (message) => {
+            dispatch(invoicesFetchByIO());
+            console.log(message);
+        });
+        socket.on('err', (errror) => {
+            console.error(errror);
+        });
 
-        // setTimeout(() => {
-        //     socket.emit('join', 'Payment_Room');
-        //     console.log('join -> Payment_Room :', socket.id);
-        // }, 100);
+        setTimeout(() => {
+            socket.emit('join', 'Payment_Room');
+            console.log('join -> Payment_Room :', socket.id);
+        }, 100);
 
-        // /* componentWillUnmount*/
-        // return () => {
-        //     socket.emit('leave', 'Payment_Room');
-        //     console.log('leave -> Payment_Room :', socket.id);
+        /* componentWillUnmount*/
+        return () => {
+            socket.emit('leave', 'Payment_Room');
+            console.log('leave -> Payment_Room :', socket.id);
 
-        //     socket.removeAllListeners();
-        // };
+            socket.removeAllListeners();
+        };
     }, []);
 
     return (

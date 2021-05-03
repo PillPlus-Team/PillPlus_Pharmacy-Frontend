@@ -1,19 +1,18 @@
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 import { userLogin } from '../../actions/userActions';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
-    const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        dispatch(userLogin({ email, password, history }));
+        dispatch(userLogin({ email, password }));
     };
 
     return (

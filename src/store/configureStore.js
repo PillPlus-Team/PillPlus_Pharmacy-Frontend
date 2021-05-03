@@ -8,7 +8,7 @@ import rootReducer from '../reducers';
 
 const middlewares = [reduxThunk, reduxLogger];
 
-const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);
+const persistedReducer = persistReducer({ key: 'pharmacy-root', storage }, rootReducer);
 
 const configureStore = createStore(persistedReducer, applyMiddleware(...middlewares));
 

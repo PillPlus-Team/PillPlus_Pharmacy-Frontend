@@ -12,9 +12,8 @@ const QueueDisplay = ({ index, patient, nowTimeStamp, onSelected = () => {} }) =
             }}
         >
             <p className="w-20 px-6 py-3 text-center font-medium text-gray-500 ">{index}</p>
-            <p className="w-32 px-6 py-3 text-left font-medium text-gray-500 ">{patient.hn}</p>
-            <p className="w-52 px-6 py-3 text-left font-medium text-gray-500 break-words">{patient.name}</p>
-            <p className="w-36 px-6 py-3 text-center font-medium text-gray-500 ">
+            <p className="w-72 px-6 py-3 text-left font-medium text-gray-500 break-words">{patient.name}</p>
+            <p className="w-44 px-6 py-3 text-center font-medium text-gray-500 ">
                 {hour.toString().padStart(2, '0')} : {minute.toString().padStart(2, '0')} : {second.toString().padStart(2, '0')}
             </p>
             <p className="w-32 px-6 py-3 text-center font-medium text-gray-500 tracking-wider">{patient.queueNo}</p>

@@ -8,11 +8,6 @@ const InvoiceInfoMonitor = ({ invoice }) => {
                 </tr>
 
                 <tr>
-                    <td className="font-bold w-36 py-2">รหัส HN</td>
-                    <td className="w-96 py-2">{invoice.hn}</td>
-                </tr>
-
-                <tr>
                     <td className="font-bold w-36 py-2">ชื่อ</td>
                     <td className="w-96 py-2">{invoice.name}</td>
                 </tr>
@@ -23,15 +18,6 @@ const InvoiceInfoMonitor = ({ invoice }) => {
                 <tr>
                     <td className="font-bold w-36 py-2">แพทย์ผู้รับผิดชอบ</td>
                     <td className="w-96 py-2">{invoice.doctor}</td>
-                </tr>
-                <tr>
-                    <td className="font-bold w-36 py-2">สถานที่รับยา</td>
-                    <td className="w-96 py-2">
-                        <div className="flex flex-col">
-                            <p>{invoice.pillStore.pharmacy}</p>
-                            <p className="text-sm text-gray-400 break-words">{invoice.pillStore.location}</p>
-                        </div>
-                    </td>
                 </tr>
                 <tr>
                     <td className="font-bold w-36 py-2 align-top">รายการยาที่ได้รับ</td>

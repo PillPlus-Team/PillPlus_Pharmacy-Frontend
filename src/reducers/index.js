@@ -5,7 +5,7 @@ import menuListReducer from './menuListReducer';
 import invoicesReducer from './invoicesReducer';
 import statementsReducer from './statementsReducer';
 import pillStoresReducer from './pillStoresReducer';
-import pillsReducer from './pillsReducer';
+import pillStorehousesReducer from './pillStorehousesReducer';
 
 export default combineReducers({
     user: userReducer,
@@ -13,5 +13,5 @@ export default combineReducers({
     invoices: invoicesReducer,
     statements: statementsReducer,
     pillStores: pillStoresReducer,
-    pills: pillsReducer,
+    pillStorehouses: pillStorehousesReducer,
 });

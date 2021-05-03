@@ -13,7 +13,7 @@ const PageLayout = ({ userInfo, menuList, pageTitle, children }) => {
             <div className="flex flex-col w-full">
                 <div className="flex flex-row justify-end items-center h-24 min-w-min">
                     <AccountCard
-                        phamacy={userInfo.phamacy}
+                        pharmacy={userInfo.pharmacy}
                         name={userInfo.name}
                         avatarUri={userInfo.avatarUri}
                         activatedStatus={userInfo.activated}

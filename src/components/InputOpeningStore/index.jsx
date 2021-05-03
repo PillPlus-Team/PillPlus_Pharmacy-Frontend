@@ -34,22 +34,19 @@ const minuteListGenerater = (startMinute = 0, endMinute = 59) => {
     return list;
 };
 
-const InputOpeningStore = ({ initOpeningData, msgOpeningNull, onOpeningNullChange = () => {}, onOpeningDataChange = () => {} }) => {
+const InputOpeningStore = ({ initOpeningData = [], msgOpeningNull, onOpeningNullChange = () => {}, onOpeningDataChange = () => {} }) => {
     /* Fix Shallow copy - create new array and copy*/
     const [openingData, setOpeningData] = useState(() => {
-        if (initOpeningData) {
-            return initOpeningData.map((element) => {
-                return { ...element };
-            });
-        }
-        return undefined;
+        return initOpeningData.map((element) => {
+            return { ...element };
+        });
     });
     /* Fix useEffect not recognize array state change*/
     const [countOpeningDataChange, setCountOpeningDataChange] = useState(0);
 
     /* Fix Shallow copy - create new array and copy */
     const [tempOpeningData, setTempOpeningData] = useState(() => {
-        if (openingData) {
+        if (openingData.length !== 0) {
             return openingData.map((element) => {
                 return { ...element };
             });
@@ -62,7 +59,7 @@ const InputOpeningStore = ({ initOpeningData, msgOpeningNull, onOpeningNullChang
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const isNull = useMemo(() => {
-        return !openingData;
+        return openingData.length === 0;
     }, [openingData]);
 
     useEffect(() => {

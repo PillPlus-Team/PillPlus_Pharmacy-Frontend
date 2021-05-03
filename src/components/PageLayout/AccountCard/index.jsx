@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-const AccountCard = ({ name, phamacy, avatarUri, activatedStatus }) => {
+const AccountCard = ({ name, pharmacy, avatarUri, activatedStatus }) => {
     return (
         <div className="flex flex-row items-center h-24 mx-10">
             <div className="flex flex-col justify-center items-end h-full mr-4">
                 <div className="flex flex-row space-x-2">
-                    <p className="whitespace-nowrap text-xl font-bold">{phamacy}</p>
+                    <p className="whitespace-nowrap text-xl font-bold">{pharmacy}</p>
                 </div>
                 <p className="text-md italic">{name}</p>
                 {!activatedStatus && (

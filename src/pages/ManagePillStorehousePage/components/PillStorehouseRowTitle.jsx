@@ -1,4 +1,4 @@
-const PillRowTitle = () => {
+const PillStorehouseRowTitle = () => {
     return (
         <thead className="text-md border-b-2 shadow-sm ">
             <tr>
@@ -35,4 +35,4 @@ const PillRowTitle = () => {
     );
 };
 
-export default PillRowTitle;
+export default PillStorehouseRowTitle;

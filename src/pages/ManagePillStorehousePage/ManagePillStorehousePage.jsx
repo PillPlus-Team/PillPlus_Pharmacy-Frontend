@@ -5,71 +5,71 @@ import ReactPaginate from 'react-paginate';
 
 import { PageLayout, TableRowSlot, RowEmpty, SearchBar } from '../../components';
 
-import PillRowTitle from './components/PillRowTitle';
-import PillRow from './components/PillRow';
+import PillStorehouseRowTitle from './components/PillStorehouseRowTitle';
+import PillStorehouseRow from './components/PillStorehouseRow';
 
-import { pillsFetch, pillsFilter } from '../../actions/pillsAction';
+import { pillStorehousesFetch, pillStorehousesFilter } from '../../actions/pillStorehousesAction';
 
 const itemPerPage = 6;
 
-const ManagePillPage = () => {
+const ManagePillStorehousePage = () => {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user);
     const menuList = useSelector((state) => state.menuList);
-    const pills = useSelector((state) => state.pills);
+    const pillStorehouses = useSelector((state) => state.pillStorehouses);
 
     const [currentPage, setCurrentPage] = useState(0);
 
-    let pillsFiltered_id = [];
+    let pillStorehousesFiltered_id = [];
     try {
-        pillsFiltered_id = pills.list.map((pill) => {
-            if (pill.show) {
-                return pill._id;
+        pillStorehousesFiltered_id = pillStorehouses.list.map((pillStorehouse) => {
+            if (pillStorehouse.show) {
+                return pillStorehouse._id;
             }
         });
-        pillsFiltered_id = pillsFiltered_id.filter((_id) => _id != null);
+        pillStorehousesFiltered_id = pillStorehousesFiltered_id.filter((_id) => _id != null);
     } catch (err) {
-        pillsFiltered_id = [];
+        pillStorehousesFiltered_id = [];
     }
 
-    const isEmpty = pillsFiltered_id.length === 0;
+    const isEmpty = pillStorehousesFiltered_id.length === 0;
 
     useEffect(() => {
-        dispatch(pillsFetch());
+        dispatch(pillStorehousesFetch());
     }, []);
 
     useEffect(() => {
-        if (pillsFiltered_id.length / itemPerPage <= currentPage) {
-            setCurrentPage(Math.floor(pillsFiltered_id.length / (itemPerPage + 1)));
+        if (pillStorehousesFiltered_id.length / itemPerPage <= currentPage) {
+            setCurrentPage(Math.floor(pillStorehousesFiltered_id.length / (itemPerPage + 1)));
         }
-    }, [pillsFiltered_id]);
+    }, [pillStorehousesFiltered_id]);
 
     return (
         <PageLayout pageTitle="จัดการข้อมูลยา" userInfo={user} menuList={menuList}>
             <div className="relative">
                 <div className="flex w-full justify-end absolute -top-14">
                     <p className="flex justify-center items-center mr-6 text-white text-lg min-w-max">
-                        ทั้งหมด {pillsFiltered_id.length.toLocaleString('th-TH')} รายการ
+                        ทั้งหมด {pillStorehousesFiltered_id.length.toLocaleString('th-TH')} รายการ
                     </p>
                     <SearchBar
                         onSearchClick={(keyword) => {
-                            dispatch(pillsFilter({ keyword: keyword }));
+                            dispatch(pillStorehousesFilter({ keyword: keyword }));
                         }}
                     />
                 </div>
                 <TableRowSlot>
-                    <PillRowTitle />
+                    <PillStorehouseRowTitle />
                     {isEmpty && <RowEmpty colSpan="9" text="ไม่มีข้อมูล" />}
 
-                    {pills.list.map((pill) => {
+                    {pillStorehouses.list.map((pillStorehouse) => {
                         const isInShowRange =
-                            currentPage * itemPerPage <= pillsFiltered_id.indexOf(pill._id) &&
-                            pillsFiltered_id.indexOf(pill._id) < currentPage * itemPerPage + itemPerPage;
+                            currentPage * itemPerPage <= pillStorehousesFiltered_id.indexOf(pillStorehouse._id) &&
+                            pillStorehousesFiltered_id.indexOf(pillStorehouse._id) < currentPage * itemPerPage + itemPerPage;
                         return (
                             <>
-                                {pill.show && isInShowRange && (
-                                    <PillRow index={pillsFiltered_id.indexOf(pill._id) + 1} pill={pill} />
+                                {pillStorehouse.show && isInShowRange && (
+                                    <PillStorehouseRow index={pillStorehousesFiltered_id.indexOf(pillStorehouse._id) + 1} pillStorehouse={pillStorehouse} />
                                 )}
                             </>
                         );
@@ -77,7 +77,7 @@ const ManagePillPage = () => {
                 </TableRowSlot>
                 <div className="flex flex-row items-center mt-4">
                     <ReactPaginate
-                        pageCount={pillsFiltered_id.length / itemPerPage}
+                        pageCount={pillStorehousesFiltered_id.length / itemPerPage}
                         initialPage={currentPage}
                         forcePage={currentPage}
                         marginPagesDisplayed={2}
@@ -105,4 +105,4 @@ const ManagePillPage = () => {
     );
 };
 
-export default ManagePillPage;
+export default ManagePillStorehousePage;
