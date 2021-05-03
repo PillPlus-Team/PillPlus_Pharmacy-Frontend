@@ -100,6 +100,9 @@ export const userUpdateProfile = ({ avatarUri, name, pharmacy, location, coordin
                 phone: phone,
             }),
         });
+        if (res.status === 401) {
+            dispatch({ type: USER_LOGOUT });
+        }
 
         let editedData;
         if (res.status === 200) {

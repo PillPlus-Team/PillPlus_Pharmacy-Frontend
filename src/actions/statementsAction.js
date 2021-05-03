@@ -1,4 +1,5 @@
 import { STATEMENTS_FETCH_BY_MONTH, STATEMENTS_SHOW } from './types';
+import { USER_LOGOUT } from './types';
 
 export const statementsFetchByMonth = ({ month, year }) => {
     return async (dispatch) => {
@@ -117,6 +118,9 @@ export const statementsFilter = ({ keyword, month, year }) => {
 //                 year,
 //             },
 //         });
+//         if (res.status === 401) {
+//             dispatch({ type: USER_LOGOUT });
+//         }
 
 //         if (res.status === 200) {
 //             let invoiceHistoryList = await res.json();

@@ -1,4 +1,5 @@
 import { PILLSTOREHOUSES_FETCH, PILLSTOREHOUSES_SHOW, PILLSTOREHOUSES_EDIT_TOGGLE, PILLSTOREHOUSES_UPDATE_AMOUNT } from './types';
+import { USER_LOGOUT } from './types';
 
 import { LoadingModal, Toast } from './swals';
 
@@ -15,6 +16,9 @@ export const pillStorehousesFetch = () => {
                 'Content-Type': 'application/json',
             },
         });
+        if (res.status === 401) {
+            dispatch({ type: USER_LOGOUT });
+        }
 
         if (res.status === 200) {
             let pillStorehouses = await res.json();
@@ -77,6 +81,9 @@ export const pillStorehousesUpdate = ({ _id, amount }) => {
                 amount: amount,
             }),
         });
+        if (res.status === 401) {
+            dispatch({ type: USER_LOGOUT });
+        }
 
         if (res.status === 200) {
             const editedPillStorehouse = await res.json().then((result) => {

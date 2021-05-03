@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { LoginPage, HomePage, ProfilePage, DispensePage, StatementPage, ManagePillStorehousePage } from './pages';

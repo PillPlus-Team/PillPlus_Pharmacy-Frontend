@@ -1,4 +1,5 @@
 import { PILLSTORES_FETCH } from './types';
+import { USER_LOGOUT } from './types';
 
 import { API_URL } from '../config';
 
@@ -13,6 +14,9 @@ export const pillStoresFetch = () => {
                 'Content-Type': 'application/json',
             },
         });
+        if (res.status === 401) {
+            dispatch({ type: USER_LOGOUT });
+        }
 
         if (res.status === 200) {
             const pillStores = await res.json();

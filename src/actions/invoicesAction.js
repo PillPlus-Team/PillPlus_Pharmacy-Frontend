@@ -1,4 +1,5 @@
 import { INVOICES_FETCH, INVOICES_FETCH_BY_IO, INVOICES_SELECT, INVOICES_DISPENSE } from './types';
+import { USER_LOGOUT } from './types';
 
 import { LoadingModal, ConfirmDialog, Toast } from './swals';
 
@@ -15,6 +16,9 @@ export const invoicesFetch = () => {
                 'Content-Type': 'application/json',
             },
         });
+        if (res.status === 401) {
+            dispatch({ type: USER_LOGOUT });
+        }
 
         if (res.status === 200) {
             let invoices = await res.json();
@@ -43,6 +47,9 @@ export const invoicesFetchByIO = () => {
                 'Content-Type': 'application/json',
             },
         });
+        if (res.status === 401) {
+            dispatch({ type: USER_LOGOUT });
+        }
 
         if (res.status === 200) {
             let invoices = await res.json();
@@ -98,6 +105,9 @@ export const invoicesDispense = ({ _id, onSuccess }) => {
                         'Content-Type': 'application/json',
                     },
                 });
+                if (res.status === 401) {
+                    dispatch({ type: USER_LOGOUT });
+                }
 
                 if (res.status === 200) {
                     onSuccess();
