@@ -26,7 +26,7 @@ const LoginPage = () => {
                             className="w-full p-2 pl-4 rounded-lg border-2 border-gray-200 focus:border-green-500 focus:outline-none"
                             id="input-email"
                             name="email"
-                            type="text"
+                            type="email"
                             value={email}
                             onChange={(event) => {
                                 setEmail(event.target.value);

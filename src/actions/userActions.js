@@ -242,6 +242,14 @@ export const userLogout = () => {
     };
 };
 
+export const userForgotPassword = ({ email }) => {
+    return (dispatch) => {
+        /* Action for reset password here! */
+
+        Toast.fire({ title: 'ขอรหัสผ่านใหม่ สำเร็จ',text:'ส่งรหัสผ่านใหม่ ไปยัง Email ของท่านแล้ว', icon: 'success' });
+    };
+};
+
 /* For dev */
 // export const userLogin = ({ email, password, history }) => {
 //     return async (dispatch) => {
