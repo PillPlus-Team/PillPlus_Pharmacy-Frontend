@@ -88,6 +88,10 @@ const MapPinLocation = ({ initLocation = initCenter, onLocationChange = () => {}
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
         });
+        mapRef.current.panTo({
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+        });
     }, []);
 
     const mapRef = React.useRef();
@@ -117,7 +121,7 @@ const MapPinLocation = ({ initLocation = initCenter, onLocationChange = () => {}
                 id="map"
                 mapContainerClassName="w-10/12 h-5/6 rounded-lg shadow-md"
                 zoom={14}
-                center={initCenter}
+                center={location}
                 options={{
                     styles: mapStyles,
                     disableDefaultUI: true,
