@@ -107,7 +107,7 @@ export const pillStorehousesUpdate = ({ _id, amount }) => {
             }
         }
 
-        if (!Toast.isTimerRunning()) {
+        if (LoadingModal.isLoading()) {
             LoadingModal.close();
         }
     };

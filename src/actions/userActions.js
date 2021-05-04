@@ -126,7 +126,7 @@ export const userUpdateProfile = ({ avatarUri, name, pharmacy, location, coordin
             }
         }
 
-        if (!Toast.isTimerRunning()) {
+        if (LoadingModal.isLoading()) {
             LoadingModal.close();
         }
 
