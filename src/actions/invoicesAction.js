@@ -8,62 +8,72 @@ import { API_URL } from '../config';
 /* For Production */
 export const invoicesFetch = () => {
     return async (dispatch) => {
-        const res = await fetch(API_URL + '/invoice/listCustomers', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (res.status === 401) {
-            dispatch({ type: USER_LOGOUT });
-        }
-
-        if (res.status === 200) {
-            let invoices = await res.json();
-            invoices = invoices.map((invoice) => {
-                let totalPay = 0;
-                invoice.pills.forEach((pill) => {
-                    totalPay += pill.totalPrice;
-                });
-
-                return { ...invoice, totalPay: totalPay };
+        try {
+            const res = await fetch(API_URL + '/invoice/listCustomers', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
-            invoices = invoices.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
 
-            dispatch({ type: INVOICES_FETCH, invoices: invoices });
+            if (res.status === 200) {
+                let invoices = await res.json();
+                invoices = invoices.map((invoice) => {
+                    let totalPay = 0;
+                    invoice.pills.forEach((pill) => {
+                        totalPay += pill.totalPrice;
+                    });
+
+                    return { ...invoice, totalPay: totalPay };
+                });
+                invoices = invoices.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
+
+                dispatch({ type: INVOICES_FETCH, invoices: invoices });
+            } else {
+                throw res;
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                dispatch({ type: USER_LOGOUT });
+            }
         }
     };
 };
 
 export const invoicesFetchByIO = () => {
     return async (dispatch) => {
-        const res = await fetch(API_URL + '/invoice/listCustomers', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (res.status === 401) {
-            dispatch({ type: USER_LOGOUT });
-        }
-
-        if (res.status === 200) {
-            let invoices = await res.json();
-            invoices = invoices.map((invoice) => {
-                let totalPay = 0;
-                invoice.pills.forEach((pill) => {
-                    totalPay += pill.totalPrice;
-                });
-
-                return { ...invoice, totalPay: totalPay };
+        try {
+            const res = await fetch(API_URL + '/invoice/listCustomers', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
-            invoices = invoices.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
 
-            dispatch({ type: INVOICES_FETCH_BY_IO, newInvoices: invoices });
+            if (res.status === 200) {
+                let invoices = await res.json();
+                invoices = invoices.map((invoice) => {
+                    let totalPay = 0;
+                    invoice.pills.forEach((pill) => {
+                        totalPay += pill.totalPrice;
+                    });
+
+                    return { ...invoice, totalPay: totalPay };
+                });
+                invoices = invoices.sort((element_1, element_2) => element_1.startTime - element_2.startTime);
+
+                dispatch({ type: INVOICES_FETCH_BY_IO, newInvoices: invoices });
+            } else {
+                throw res;
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                dispatch({ type: USER_LOGOUT });
+            }
         }
     };
 };
@@ -76,10 +86,7 @@ export const invoicesSelect = ({ _id }) => {
 };
 
 export const invoicesDispense = ({ _id, onSuccess }) => {
-    return async (dispatch, getState) => {
-        LoadingModal.fire({ title: 'กำลังดำเนินการ ...' });
-        LoadingModal.showLoading();
-
+    return (dispatch, getState) => {
         const { invoices } = getState();
         const invoice = invoices.list.find((invoice) => invoice._id === _id);
 
@@ -97,27 +104,37 @@ export const invoicesDispense = ({ _id, onSuccess }) => {
             icon: 'warning',
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await fetch(API_URL + `/invoice/dispensePill/${_id}`, {
-                    method: 'PUT',
-                    mode: 'cors',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (res.status === 401) {
-                    dispatch({ type: USER_LOGOUT });
+                LoadingModal.fire({ title: 'กำลังดำเนินการ ...' });
+                LoadingModal.showLoading();
+
+                try {
+                    const res = await fetch(API_URL + `/invoice/dispensePill/${_id}`, {
+                        method: 'PUT',
+                        mode: 'cors',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    if (res.status === 200) {
+                        onSuccess();
+
+                        dispatch({ type: INVOICES_DISPENSE, _id: _id });
+                        Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success', timer: 1500 });
+                    } else {
+                        throw res;
+                    }
+                } catch (error) {
+                    if (error.status === 401) {
+                        dispatch({ type: USER_LOGOUT });
+                    } else {
+                        Toast.fire({ title: 'เกิดข้อผิดพลาด ในการดำเนินการ', icon: 'error' });
+                        dispatch(invoicesFetch());
+                    }
                 }
 
-                if (res.status === 200) {
-                    onSuccess();
-
-                    dispatch({ type: INVOICES_DISPENSE, _id: _id });
-                    Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success', timer: 1500 });
-                } else {
-                    Toast.fire({ title: 'เกิดข้อผิดพลาด ในการดำเนินการ', icon: 'error' });
-                    dispatch(invoicesFetch());
-                }
+                LoadingModal.close();
             }
         });
     };

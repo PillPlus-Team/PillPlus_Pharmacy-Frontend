@@ -108,33 +108,38 @@ export const statementsFilter = ({ keyword, month, year }) => {
 /* For Production */
 // export const statementsFetchByMonth = ({ month, year }) => {
 //     return async (dispatch) => {
-//         const res = await fetch('/api/v1/getAccounts', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: {
-//                 month,
-//                 year,
-//             },
-//         });
-//         if (res.status === 401) {
-//             dispatch({ type: USER_LOGOUT });
-//         }
-
-//         if (res.status === 200) {
-//             let invoiceHistoryList = await res.json();
-//             invoiceHistoryList = invoiceHistoryList.map((invoiceHistory) => {
-//                 let totalPay = 0;
-//                 invoiceHistory.pills.forEach((pill) => {
-//                     totalPay += pill.totalPrice;
-//                 });
-
-//                 return { ...invoiceHistory, totalPay: totalPay, show: true };
+//         try {
+//             const res = await fetch('/api/v1/getAccounts', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: {
+//                     month,
+//                     year,
+//                 },
 //             });
 
-//             dispatch({ type: STATEMENTSLIST_FETCH_BY_MONTH, invoiceHistoryList: invoiceHistoryList, month: month, year: year });
-//             dispatch(statementsFilter({ keyword: '', month: month, year: year }));
+//             if (res.status === 200) {
+//                 let invoiceHistoryList = await res.json();
+//                 invoiceHistoryList = invoiceHistoryList.map((invoiceHistory) => {
+//                     let totalPay = 0;
+//                     invoiceHistory.pills.forEach((pill) => {
+//                         totalPay += pill.totalPrice;
+//                     });
+
+//                     return { ...invoiceHistory, totalPay: totalPay, show: true };
+//                 });
+
+//                 dispatch({ type: STATEMENTSLIST_FETCH_BY_MONTH, invoiceHistoryList: invoiceHistoryList, month: month, year: year });
+//                 dispatch(statementsFilter({ keyword: '', month: month, year: year }));
+//             } else {
+//                 throw res;
+//             }
+//         } catch (error) {
+//             if (error.status === 401) {
+//                 dispatch({ type: USER_LOGOUT });
+//             }
 //         }
 //     };
 // };

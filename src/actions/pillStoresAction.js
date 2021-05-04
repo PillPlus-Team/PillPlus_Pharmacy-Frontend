@@ -6,22 +6,27 @@ import { API_URL } from '../config';
 /* For Production */
 export const pillStoresFetch = () => {
     return async (dispatch) => {
-        const res = await fetch(API_URL + '/pillStore/all', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (res.status === 401) {
-            dispatch({ type: USER_LOGOUT });
-        }
+        try {
+            const res = await fetch(API_URL + '/pillStore/all', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-        if (res.status === 200) {
-            const pillStores = await res.json();
+            if (res.status === 200) {
+                const pillStores = await res.json();
 
-            dispatch({ type: PILLSTORES_FETCH, pillStores: pillStores });
+                dispatch({ type: PILLSTORES_FETCH, pillStores: pillStores });
+            } else {
+                throw res;
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                dispatch({ type: USER_LOGOUT });
+            }
         }
     };
 };

@@ -8,32 +8,37 @@ import { API_URL } from '../config';
 /* For Production */
 export const pillStorehousesFetch = () => {
     return async (dispatch) => {
-        const res = await fetch(API_URL + '/pillStorehouse', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (res.status === 401) {
-            dispatch({ type: USER_LOGOUT });
-        }
-
-        if (res.status === 200) {
-            let pillStorehouses = await res.json();
-            pillStorehouses = pillStorehouses.map((pillStorehouse) => {
-                return { ...pillStorehouse, _id: pillStorehouse.pill._id };
+        try {
+            const res = await fetch(API_URL + '/pillStorehouse', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
 
-            dispatch({ type: PILLSTOREHOUSES_FETCH, pillStorehouses: pillStorehouses });
-            dispatch(pillStorehousesFilter({ keyword: '' }));
+            if (res.status === 200) {
+                let pillStorehouses = await res.json();
+                pillStorehouses = pillStorehouses.map((pillStorehouse) => {
+                    return { ...pillStorehouse, _id: pillStorehouse.pill._id };
+                });
+
+                dispatch({ type: PILLSTOREHOUSES_FETCH, pillStorehouses: pillStorehouses });
+                dispatch(pillStorehousesFilter({ keyword: '' }));
+            } else {
+                throw res;
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                dispatch({ type: USER_LOGOUT });
+            }
         }
     };
 };
 
 export const pillStorehousesFilter = ({ keyword }) => {
-    return async (dispatch, getState) => {
+    return (dispatch, getState) => {
         const { pillStorehouses } = getState();
 
         let _idList = [];
@@ -69,33 +74,40 @@ export const pillStorehousesUpdate = ({ _id, amount }) => {
         const { pillStorehouses } = getState();
         const pillStorehouse = pillStorehouses.list.find((pillStorehouse) => pillStorehouse._id === _id);
 
-        const res = await fetch(API_URL + `/pillStorehouse`, {
-            method: 'PUT',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                pill_id: pillStorehouse.pill._id,
-                amount: amount,
-            }),
-        });
-        if (res.status === 401) {
-            dispatch({ type: USER_LOGOUT });
-        }
-
-        if (res.status === 200) {
-            const editedPillStorehouse = await res.json().then((result) => {
-                return { _id: result.pill._id, pill: result.pill, amount: result.amount };
+        try {
+            const res = await fetch(API_URL + `/pillStorehouse`, {
+                method: 'PUT',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    pill_id: pillStorehouse.pill._id,
+                    amount: amount,
+                }),
             });
 
-            dispatch({ type: PILLSTOREHOUSES_UPDATE_AMOUNT, pillStorehouse: { ...pillStorehouse, ...editedPillStorehouse } });
-            Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success' });
-        } else {
-            Toast.fire({ title: 'เกิดข้อผิดพลาด ในการดำเนินการ', icon: 'error' });
-            dispatch(pillStorehousesFetch());
+            if (res.status === 200) {
+                const editedPillStorehouse = await res.json().then((result) => {
+                    return { _id: result.pill._id, pill: result.pill, amount: result.amount };
+                });
+
+                dispatch({ type: PILLSTOREHOUSES_UPDATE_AMOUNT, pillStorehouse: { ...pillStorehouse, ...editedPillStorehouse } });
+                Toast.fire({ title: 'ดำเนินการสำเร็จ', icon: 'success' });
+            } else {
+                throw res;
+            }
+        } catch (error) {
+            if (error.status === 401) {
+                dispatch({ type: USER_LOGOUT });
+            } else {
+                Toast.fire({ title: 'เกิดข้อผิดพลาด ในการดำเนินการ', icon: 'error' });
+                dispatch(pillStorehousesFetch());
+            }
         }
+
+        LoadingModal.close();
     };
 };
 
