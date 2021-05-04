@@ -107,7 +107,9 @@ export const pillStorehousesUpdate = ({ _id, amount }) => {
             }
         }
 
-        LoadingModal.close();
+        if (!Toast.isTimerRunning()) {
+            LoadingModal.close();
+        }
     };
 };
 

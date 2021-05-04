@@ -126,7 +126,9 @@ export const userUpdateProfile = ({ avatarUri, name, pharmacy, location, coordin
             }
         }
 
-        LoadingModal.close();
+        if (!Toast.isTimerRunning()) {
+            LoadingModal.close();
+        }
 
         dispatch(pillStoresFetch());
     };

@@ -100,8 +100,8 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                             required
                             minLength={1}
                             maxLength={30}
-                            pattern="^[a-zA-Zก-๏\s]+$"
-                            msgPatternError="อังกฤษ/ไทย เท่านั้น"
+                            pattern="^[a-zA-Zก-๏\s\.]+$"
+                            msgPatternError="อังกฤษ/ไทย/. เท่านั้น"
                             onValidChange={(state) => {
                                 setIsValidName(state);
                             }}
@@ -123,7 +123,7 @@ const ProfileEditor = ({ userInfo, pillStores }) => {
                             autoComplete="off"
                             required
                             minLength={1}
-                            maxLength={30}
+                            maxLength={50}
                             pattern="^[a-zA-Zก-๏0-9\s]+$"
                             msgPatternError="อังกฤษ/ไทย/ตัวเลข เท่านั้น"
                             onValidChange={(state) => {
