@@ -8,6 +8,9 @@ import InvoiceInfoMonitor from './InvoiceInfoMonitor';
 const StatementRowDisplay = ({ index, invoiceHistory }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    const dispenseDate = new Date(invoiceHistory.dispenseDate);
+    console.log(dispenseDate);
+
     return (
         <>
             <tbody className="divide-y divide-gray-200">
@@ -18,7 +21,9 @@ const StatementRowDisplay = ({ index, invoiceHistory }) => {
                         <p className="break-words">{invoiceHistory.name}</p>
                     </td>
                     <td className="w-36 px-6 py-4 text-gray-500">
-                        <p className="break-words">{invoiceHistory.dispenseTime}</p>
+                        <p className="break-words">
+                            {dispenseDate.getDate()} / {dispenseDate.getMonth()} / {dispenseDate.getFullYear()}
+                        </p>
                     </td>
 
                     <td className="w-36 px-6 py-4 text-gray-500 text-center text-xl border-l-2 border-r-2">

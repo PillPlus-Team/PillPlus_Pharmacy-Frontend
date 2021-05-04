@@ -1,11 +1,16 @@
 import { STATEMENTS_FETCH_BY_MONTH, STATEMENTS_SHOW } from './types';
 import { USER_LOGOUT } from './types';
 
+import { LoadingModal } from './swals';
+
 import { API_URL } from '../config';
 
 /* For Production */
 export const statementsFetchByMonth = ({ month, year }) => {
     return async (dispatch) => {
+        LoadingModal.fire({ title: 'กำลังดำเนินการ ...' });
+        LoadingModal.showLoading();
+
         try {
             const res = await fetch(API_URL + `/invoice/statements?year=${year}&month=${month}`, {
                 method: 'GET',
@@ -40,6 +45,10 @@ export const statementsFetchByMonth = ({ month, year }) => {
             if (error.status === 401) {
                 dispatch({ type: USER_LOGOUT });
             }
+        }
+
+        if (LoadingModal.isLoading()) {
+            LoadingModal.close();
         }
     };
 };
