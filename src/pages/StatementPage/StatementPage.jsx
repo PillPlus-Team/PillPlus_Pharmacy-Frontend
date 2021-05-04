@@ -35,7 +35,7 @@ const StatementPage = () => {
     const menuList = useSelector((state) => state.menuList);
     const statements = useSelector((state) => state.statements);
 
-    const [month, setMonth] = useState(new Date().getMonth() + 1);
+    const [month, setMonth] = useState(new Date().getMonth());
     const [year, setYear] = useState(new Date().getFullYear());
 
     const [currentPage, setCurrentPage] = useState(0);
@@ -76,9 +76,9 @@ const StatementPage = () => {
                             id={`InputDropdown-month`}
                             name="month"
                             optionList={monthList}
-                            selectedIndex={month - 1}
+                            selectedIndex={month}
                             onValueChange={(state) => {
-                                setMonth(monthList.indexOf(state) + 1);
+                                setMonth(monthList.indexOf(state));
                             }}
                         />
                     </div>
