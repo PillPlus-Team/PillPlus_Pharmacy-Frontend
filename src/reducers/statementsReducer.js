@@ -5,7 +5,7 @@ const initState = { list: [], month: null, year: null };
 const statementsReducer = (state = initState, action) => {
     switch (action.type) {
         case STATEMENTS_FETCH_BY_MONTH:
-            return { list: action.invoiceHistoryList, month: action.month, year: action.year, balance: action.balance };
+            return { list: action.invoiceHistoryList, month: action.month, year: action.year, balanced: action.balanced };
 
         case STATEMENTS_SHOW: {
             if (state.month === action.month && state.year === action.year) {

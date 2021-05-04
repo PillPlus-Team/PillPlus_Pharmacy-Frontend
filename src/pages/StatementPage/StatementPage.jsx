@@ -123,7 +123,7 @@ const StatementPage = () => {
                     <div className="flex flex-row justify-center items-center py-2 px-4 space-x-4 text-gray-500 bg-white rounded-lg shadow-md">
                         <p>💰 ยอดรวมทั้งสิ้น</p>
                         <p className="text-lg underline">
-                            {Number(statements.balance).toLocaleString('th-TH', {
+                            {Number(statements.balanced).toLocaleString('th-TH', {
                                 style: 'currency',
                                 currency: 'THB',
                                 minimumFractionDigits: 2,
