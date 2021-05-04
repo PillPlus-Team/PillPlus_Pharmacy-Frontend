@@ -246,7 +246,7 @@ export const userForgotPassword = ({ email }) => {
     return (dispatch) => {
         /* Action for reset password here! */
 
-        Toast.fire({ title: 'ขอรหัสผ่านใหม่ สำเร็จ',text:'ส่งรหัสผ่านใหม่ ไปยัง Email ของท่านแล้ว', icon: 'success' });
+        Toast.fire({ title: 'กรุณาทำการยืนยันใน Email ของท่าน', text: 'ส่งลิ้งยืนยัน ไปยัง Email ของท่านแล้ว', icon: 'success' });
     };
 };
 
