@@ -22,7 +22,7 @@ const StatementRowDisplay = ({ index, invoiceHistory }) => {
                     </td>
                     <td className="w-36 px-6 py-4 text-gray-500">
                         <p className="break-words">
-                            {dispenseDate.getDate()} / {dispenseDate.getMonth()} / {dispenseDate.getFullYear()}
+                            {dispenseDate.getDate()} / {dispenseDate.getMonth() + 1} / {dispenseDate.getFullYear()}
                         </p>
                     </td>
 
