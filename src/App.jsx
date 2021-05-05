@@ -7,21 +7,25 @@ import { LoginPage, ForgotPasswordPage, HomePage, ProfilePage, DispensePage, Sta
 import io from 'socket.io-client';
 import { SOCKET_URL } from './config';
 
-
 const socket = io(SOCKET_URL);
 
 const App = () => {
     const user = useSelector((state) => state.user);
 
+    /* Hack Socket.io not async event*/
     useEffect(() => {
-        socket.emit('join', 'SelectPillStore_Room');
-        console.log('join -> SelectPillStore_Room :', socket.id);
-
-        socket.emit('room', 'SelectPillStore_Room');
-        console.log('knock SelectPillStore_Room!');
-
-        socket.emit('leave', 'SelectPillStore_Room');
-        console.log('leave -> SelectPillStore_Room :', socket.id);
+        setTimeout(() => {
+            socket.emit('join', 'SelectPillStore_Room');
+            console.log('join -> SelectPillStore_Room :', socket.id);
+        }, 100);
+        setTimeout(() => {
+            socket.emit('room', 'SelectPillStore_Room');
+            console.log('knock SelectPillStore_Room!');
+        }, 200);
+        setTimeout(() => {
+            socket.emit('leave', 'SelectPillStore_Room');
+            console.log('leave -> SelectPillStore_Room :', socket.id);
+        }, 300);
     }, [user]);
 
     return (
