@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { LoginPage, ForgotPasswordPage, HomePage, ProfilePage, DispensePage, StatementPage, ManagePillStorehousePage } from './pages';
@@ -6,10 +7,22 @@ import { LoginPage, ForgotPasswordPage, HomePage, ProfilePage, DispensePage, Sta
 import io from 'socket.io-client';
 import { SOCKET_URL } from './config';
 
+
 const socket = io(SOCKET_URL);
 
 const App = () => {
     const user = useSelector((state) => state.user);
+
+    useEffect(() => {
+        socket.emit('join', 'SelectPillStore_Room');
+        console.log('join -> SelectPillStore_Room :', socket.id);
+
+        socket.emit('room', 'SelectPillStore_Room');
+        console.log('knock SelectPillStore_Room!');
+
+        socket.emit('leave', 'SelectPillStore_Room');
+        console.log('leave -> SelectPillStore_Room :', socket.id);
+    }, [user]);
 
     return (
         <BrowserRouter>
