@@ -3,7 +3,7 @@ import { USER_LOGIN, USER_EDIT_PROFILE_TOGGLE, USER_UPDATE_PROFILE, USER_LOGOUT 
 import { menuListFetch } from './menuListActions';
 import { pillStoresFetch } from './pillStoresAction';
 
-import { LoadingModal, ConfirmDialog, ChaningModal, Toast } from './swals';
+import { LoadingModal, ConfirmDialog, ImportantNotificationModal, ChaningModal, Toast } from './swals';
 
 import { API_URL } from '../config';
 
@@ -29,6 +29,14 @@ export const userLogin = ({ email, password }) => {
 
                 dispatch({ type: USER_LOGIN, user: user });
                 dispatch(menuListFetch());
+
+                ImportantNotificationModal.fire({
+                    title: 'ข้อควรทราบ',
+                    html:
+                        `<br> สถานะของร้าน ${user.pharmacy} : <b>เปิดอยู่</b> <br><br>` +
+                        `<p class='text-red-500'>กรุณาอยู่ในระบบ จนกว่าร้านของท่านจะปิด <br> **อย่าปิด Browser หากยังไม่ได้ออกจากระบบ**</p> <br>`,
+                    icon: 'warning',
+                });
             } else {
                 throw res;
             }
