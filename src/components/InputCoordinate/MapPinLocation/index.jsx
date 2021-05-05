@@ -77,7 +77,7 @@ const Search = ({ panTo }) => {
 
 const MapPinLocation = ({ initLocation = initCenter, onLocationChange = () => {} }) => {
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: 'AIzaSyBcyS0VEgAbAzAHQYprx3ycMwkmfg7noxE',
+        googleMapsApiKey: process.env.GOOGLE_API_KEY,
         libraries,
     });
 
